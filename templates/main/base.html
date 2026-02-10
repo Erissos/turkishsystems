@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="tr" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ site.meta_title }}</title>
+    {% if site.meta_description %}
+    <meta name="description" content="{{ site.meta_description }}">
+    {% endif %}
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&display=swap');
+
+        :root {
+            --bg: #f6f7f9;
+            --bg-2: #eef1f5;
+            --ink: #0f172a;
+            --ink-2: #111827;
+            --muted: #5f6b7a;
+            --accent: #b91c1c;
+            --accent-2: #0f172a;
+            --accent-3: #9a3412;
+            --panel: rgba(255, 255, 255, 0.9);
+            --border: rgba(15, 23, 42, 0.12);
+        }
+
+        body {
+            font-family: 'Manrope', sans-serif;
+            background-color: var(--bg);
+            color: var(--ink);
+            overflow-x: hidden;
+        }
+
+        .display {
+            font-family: 'Manrope', sans-serif;
+            font-weight: 700;
+            letter-spacing: -0.01em;
+        }
+
+        .mesh-bg {
+            position: fixed;
+            inset: 0;
+            z-index: -2;
+            background:
+                radial-gradient(circle at 10% 0%, rgba(15, 23, 42, 0.08) 0%, transparent 45%),
+                radial-gradient(circle at 90% 20%, rgba(185, 28, 28, 0.08) 0%, transparent 45%),
+                radial-gradient(circle at 60% 85%, rgba(15, 23, 42, 0.08) 0%, transparent 45%);
+        }
+
+
+
+        .grain {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            opacity: 0.2;
+            background-image: repeating-linear-gradient(
+                135deg,
+                rgba(0, 0, 0, 0.025) 0,
+                rgba(0, 0, 0, 0.025) 1px,
+                transparent 1px,
+                transparent 5px
+            );
+            pointer-events: none;
+        }
+
+        .panel,
+        .glass-card {
+            background: var(--panel);
+            border: 1px solid var(--border);
+            box-shadow: 0 20px 40px rgba(15, 23, 42, 0.08);
+            backdrop-filter: blur(12px);
+            transition: transform 0.25s ease, border 0.25s ease, box-shadow 0.25s ease;
+        }
+
+        .panel:hover,
+        .glass-card:hover {
+            transform: translateY(-6px);
+            border-color: rgba(185, 28, 28, 0.35);
+            box-shadow: 0 28px 60px rgba(15, 23, 42, 0.12);
+        }
+
+        .kicker {
+            text-transform: uppercase;
+            letter-spacing: 0.28em;
+            font-size: 0.7rem;
+            color: var(--accent);
+        }
+
+        .accent-text {
+            color: var(--accent);
+        }
+
+        .text-muted {
+            color: var(--muted);
+        }
+
+        .text-accent {
+            color: var(--accent);
+        }
+
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 0.95rem 2.2rem;
+            border-radius: 999px;
+            font-weight: 700;
+            color: #ffffff;
+            background: linear-gradient(120deg, #b91c1c, #ef4444);
+            box-shadow: 0 16px 30px rgba(185, 28, 28, 0.25);
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px) scale(1.01);
+            box-shadow: 0 22px 40px rgba(185, 28, 28, 0.28);
+        }
+
+        .btn-outline {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 0.9rem 2.2rem;
+            border-radius: 999px;
+            border: 1px solid var(--border);
+            color: var(--ink);
+            background: rgba(255, 255, 255, 0.8);
+            transition: border 0.2s ease, color 0.2s ease, background 0.2s ease;
+        }
+
+        .btn-outline:hover {
+            border-color: rgba(185, 28, 28, 0.4);
+            background: rgba(185, 28, 28, 0.05);
+        }
+
+        .nav-link {
+            position: relative;
+            padding-bottom: 0.35rem;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--accent-2), var(--accent));
+            transition: width 0.3s ease;
+        }
+        .nav-link:hover::after { width: 100%; }
+
+        .section-line {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(15, 23, 42, 0.2), transparent);
+        }
+
+        .section-wash {
+            background: linear-gradient(180deg, #ffffff 0%, var(--bg-2) 100%);
+        }
+
+        .hero-shell {
+            background-color: #0f172a;
+            background-image: 
+                linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(135deg, #0b1222 0%, #111827 100%);
+            background-size: 40px 40px, 40px 40px, cover;
+            border-radius: 0 0 48px 48px;
+            color: #f8fafc;
+        }
+
+        .hero-shell .text-muted {
+            color: rgba(248, 250, 252, 0.7);
+        }
+
+        .hero-shell .panel {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.18);
+            box-shadow: none;
+        }
+
+        .grid-pattern {
+            background-image:
+                linear-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.08) 1px, transparent 1px);
+            background-size: 48px 48px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="mesh-bg"></div>
+    <div class="grain"></div>
+
+    <header class="fixed w-full z-50 top-0 bg-white/90 backdrop-blur-lg border-b border-black/5">
+        <nav class="container mx-auto px-6 py-5 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <a href="/" class="text-xl font-semibold tracking-tight uppercase">
+                    {{ site.brand_name }}<span class="accent-text">{{ site.brand_highlight }}</span>
+                </a>
+            </div>
+
+            <div class="hidden md:flex items-center space-x-10 font-semibold text-sm">
+                {% for link in nav_links %}
+                    {% if link.is_primary %}
+                        <a href="{{ link.url }}" class="btn-primary text-sm">{{ link.label }}</a>
+                    {% else %}
+                        <a href="{{ link.url }}" class="nav-link text-muted">{{ link.label }}</a>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </nav>
+    </header>
+
+    {% block content %}{% endblock %}
+
+    <footer class="py-16 border-t border-black/5 section-wash">
+        <div class="container mx-auto px-6">
+            <div class="grid lg:grid-cols-3 gap-10 items-start">
+                <div>
+                    <div class="text-2xl font-semibold mb-4 uppercase">
+                        {{ site.brand_name }}<span class="accent-text">{{ site.brand_highlight }}</span>
+                    </div>
+                    <p class="text-muted max-w-xs text-sm">{{ site.footer_intro }}</p>
+                </div>
+                <div class="text-sm text-muted">
+                    <div class="kicker mb-4">Hızlı Erişim</div>
+                    <div class="space-y-2">
+                        {% for link in nav_links %}
+                        <a href="{{ link.url }}" class="block hover:text-white transition">{{ link.label }}</a>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="text-sm text-muted">
+                    <div class="kicker mb-4">SOSYAL</div>
+                    <div class="space-y-2">
+                        {% for link in social_links %}
+                        <a href="{{ link.url }}" class="block hover:text-white transition">{{ link.label }}</a>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            <div class="mt-12 pt-6 border-t border-black/5 text-center text-muted text-sm">
+                {{ site.footer_copyright }}
+            </div>
+        </div>
+    </footer>
+
+    <div id="contact-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/40 p-6" aria-hidden="true">
+        <div class="w-full max-w-xl rounded-[32px] border border-black/10 bg-white p-10 text-center shadow-2xl">
+            <div class="text-2xl font-semibold mb-3 display">Projenizi Başlatalım</div>
+            <p class="text-muted mb-8">Teknik detayları, mimari gereksinimleri ve iş hedeflerinizi konuşmak için mühendislik ekibimizle doğrudan iletişime geçin.</p>
+            <div class="grid gap-4">
+                {% if site.contact_whatsapp_url %}
+                <a href="{{ site.contact_whatsapp_url }}" class="flex items-center justify-center gap-3 rounded-2xl bg-emerald-600 px-6 py-4 font-bold text-white hover:bg-emerald-500 transition">
+                    <i class="fa-brands fa-whatsapp text-xl"></i> WhatsApp
+                </a>
+                {% endif %}
+                {% if site.contact_email %}
+                <a href="mailto:{{ site.contact_email }}" class="flex items-center justify-center gap-3 rounded-2xl bg-slate-900 px-6 py-4 font-bold text-white hover:bg-slate-800 transition">
+                    <i class="fa-solid fa-envelope text-xl"></i> E-posta
+                </a>
+                {% endif %}
+                {% if site.contact_linkedin_url %}
+                <a href="{{ site.contact_linkedin_url }}" class="flex items-center justify-center gap-3 rounded-2xl bg-blue-700 px-6 py-4 font-bold text-white hover:bg-blue-600 transition">
+                    <i class="fa-brands fa-linkedin text-xl"></i> LinkedIn
+                </a>
+                {% endif %}
+            </div>
+            <button type="button" data-modal-close="contact-modal" class="mt-8 text-sm uppercase tracking-widest text-muted hover:text-black">Kapat</button>
+        </div>
+    </div>
+
+    <script>
+        const modal = document.getElementById('contact-modal');
+        const openButtons = document.querySelectorAll('[data-modal-open="contact-modal"]');
+        const closeButtons = document.querySelectorAll('[data-modal-close="contact-modal"]');
+
+        const toggleModal = (isOpen) => {
+            if (!modal) {
+                return;
+            }
+            if (isOpen) {
+                modal.classList.remove('hidden');
+                modal.classList.add('flex');
+                modal.setAttribute('aria-hidden', 'false');
+            } else {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+                modal.setAttribute('aria-hidden', 'true');
+            }
+        };
+
+        openButtons.forEach((button) => {
+            button.addEventListener('click', () => toggleModal(true));
+        });
+
+        closeButtons.forEach((button) => {
+            button.addEventListener('click', () => toggleModal(false));
+        });
+
+        if (modal) {
+            modal.addEventListener('click', (event) => {
+                if (event.target === modal) {
+                    toggleModal(false);
+                }
+            });
+        }
+    </script>
+
+    {% block extra_scripts %}{% endblock %}
+</body>
+</html>

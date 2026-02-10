@@ -1,0 +1,176 @@
+{% extends "main/base.html" %}
+
+{% block content %}
+    <section class="pt-40 pb-16 px-6">
+        <div class="container mx-auto text-center">
+            <div class="kicker mb-4">HİZMETLER</div>
+            <h1 class="display text-4xl md:text-6xl mb-6">{{ site.services_title }}</h1>
+            <p class="text-muted text-lg max-w-2xl mx-auto">Karmaşık mühendislik problemlerine, ölçeklenebilir bulut mimarileri ve yüksek performanslı yazılım çözümleriyle yanıt veriyoruz.</p>
+        </div>
+    </section>
+
+    <section class="py-16 px-6">
+        <div class="container mx-auto grid lg:grid-cols-3 gap-8">
+            {% for service in services %}
+            <div class="panel p-10 rounded-[36px] group">
+                <div class="w-14 h-14 rounded-2xl flex items-center justify-center mb-6 bg-red-50">
+                    <i class="{{ service.icon_class }} text-2xl text-accent"></i>
+                </div>
+                <h3 class="text-2xl font-semibold mb-4">{{ service.title }}</h3>
+                <p class="text-muted leading-relaxed mb-6">{{ service.description }}</p>
+                <ul class="text-sm space-y-3 text-muted">
+                    <li><i class="fa-solid fa-check text-accent mr-2"></i> {{ service.bullet_one }}</li>
+                    <li><i class="fa-solid fa-check text-accent mr-2"></i> {{ service.bullet_two }}</li>
+                </ul>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+
+    <section class="py-20 px-6 section-wash">
+        <div class="container mx-auto">
+
+            <!-- Başlık -->
+            <div class="text-center mb-16 max-w-2xl mx-auto">
+                <div class="kicker mb-3">TEKNİK YETKİNLİKLERİMİZ</div>
+                <h2 class="display text-3xl md:text-5xl mb-4">Mühendislik odaklı üretim</h2>
+                <p class="text-muted">
+                    Sadece arayüz değil, arka planda güvenle çalışan güçlü algoritmalar, veri mimarileri 
+                    ve sürdürülebilir yazılım ekosistemleri inşa ediyoruz.
+                </p>
+            </div>
+
+            <!-- Grid -->
+            <div class="grid lg:grid-cols-3 gap-8">
+
+                <!-- Platformlar / SaaS -->
+                <div class="panel p-10 rounded-[32px] h-full flex flex-col justify-between hover:-translate-y-2 transition">
+                    <div>
+                        <div class="text-accent text-sm font-semibold mb-3">MİMARİ & BACKEND</div>
+                        <h3 class="text-2xl font-semibold mb-4">Yüksek Ölçekli SaaS</h3>
+                        <p class="text-muted mb-6">
+                            Binlerce anlık isteği karşılayabilen, mikroservis mimarisine uygun 
+                            ve endüstri standartlarında güvenli backend yapıları.
+                        </p>
+                        <ul class="text-sm space-y-3 text-muted">
+                            <li><i class="fa-solid fa-check text-accent mr-2"></i> Multi-tenant veritabanı (SQL/NoSQL)</li>
+                            <li><i class="fa-solid fa-check text-accent mr-2"></i> REST & GraphQL API servisleri</li>
+                            <li><i class="fa-solid fa-check text-accent mr-2"></i> CI/CD ve Container (Docker/K8s)</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Uygulamalar -->
+                <div class="panel p-10 rounded-[32px] h-full flex flex-col justify-between hover:-translate-y-2 transition">
+                    <div>
+                        <div class="text-accent text-sm font-semibold mb-3">WEB & MOBİL</div>
+                        <h3 class="text-2xl font-semibold mb-4">Cross-Platform Çözümler</h3>
+                        <p class="text-muted mb-6">
+                            Native performansında çalışan, optimize edilmiş modern frontend kodları 
+                            ve kesintisiz kullanıcı kanalları.
+                        </p>
+                        <ul class="text-sm space-y-3 text-muted">
+                            <li><i class="fa-solid fa-check text-accent mr-2"></i> React, Next.js ve Vue mimarileri</li>
+                            <li><i class="fa-solid fa-check text-accent mr-2"></i> Flutter & React Native geliştirme</li>
+                            <li><i class="fa-solid fa-check text-accent mr-2"></i> PWA ve Offline-first prensibi</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Oyun & Diğer -->
+                <div class="panel p-10 rounded-[32px] h-full flex flex-col justify-between hover:-translate-y-2 transition">
+                    <div>
+                        <div class="text-accent text-sm font-semibold mb-3">OYUN TEKNOLOJİLERİ</div>
+                        <h3 class="text-2xl font-semibold mb-4">Simülasyon & Etkileşim</h3>
+                        <p class="text-muted mb-6">
+                            Fizik motorları, 3D grafik işleme ve multiplayer ağ yapıları üzerine 
+                            derin teknik mühendislik hizmetleri.
+                        </p>
+                        <ul class="text-sm space-y-3 text-muted">
+                            <li><i class="fa-solid fa-check text-accent mr-2"></i> Unity & Unreal Engine uzmanlığı</li>
+                            <li><i class="fa-solid fa-check text-accent mr-2"></i> Düşük gecikmeli (Low-latency) ağ</li>
+                            <li><i class="fa-solid fa-check text-accent mr-2"></i> Shader & Grafik optimizasyonu</li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+
+
+    <section class="py-16 px-6">
+        <div class="container mx-auto text-center mb-12">
+            <div class="kicker mb-3">FİYATLANDIRMA</div>
+            <h2 class="display text-3xl md:text-5xl mb-4">Paketler ve fiyatlama</h2>
+            <p class="text-muted">İhtiyacınıza göre ölçeklenen esnek paketler.</p>
+        </div>
+        <div class="container mx-auto grid lg:grid-cols-3 gap-8">
+            {% for pkg in pricing_packages %}
+            <div class="panel p-10 rounded-[32px] {% if pkg.is_highlighted %}border border-red-200{% endif %}">
+                <div class="kicker mb-4">{{ pkg.name }}</div>
+                <h3 class="text-3xl font-semibold mb-2">{{ pkg.price }}</h3>
+                <p class="text-muted mb-6">{{ pkg.description }}</p>
+                <ul class="text-sm space-y-3 text-muted">
+                    {% for feature in pkg.get_features_list %}
+                    <li><i class="fa-solid fa-check text-accent mr-2"></i> {{ feature }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+
+    <section class="py-16 px-6 section-wash">
+        <div class="container mx-auto grid lg:grid-cols-2 gap-12">
+            <!-- Sol Alan: Kullanım Senaryoları -->
+            <div>
+                <div class="kicker mb-4">PROJE TİPOLOJİLERİ</div>
+                <h2 class="display text-3xl md:text-5xl mb-6">
+                    Hangi sorunları çözüyoruz?
+                </h2>
+                <p class="text-muted mb-8">
+                    Teknik borç yaratan geçici çözümler yerine, büyüyen işletmeniz için uzun vadeli ve sürdürülebilir altyapılar sunuyoruz.
+                </p>
+                <div class="space-y-4 text-muted">
+                    <div>
+                        <i class="fa-solid fa-bolt text-accent mr-2"></i>
+                        Legacy (eski) sistemlerin modernizasyonu ve buluta taşınması
+                    </div>
+                    <div>
+                        <i class="fa-solid fa-chart-line text-accent mr-2"></i>
+                        Yüksek işlem hacimli veri analitiği ve raporlama panelleri
+                    </div>
+                    <div>
+                        <i class="fa-solid fa-users-gear text-accent mr-2"></i>
+                        Kuruma özel karmaşık iş akış otomasyonları ve entegrasyonlar
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sağ Alan: SSS -->
+            <div class="panel p-10 rounded-[32px]">
+                <h3 class="text-2xl font-semibold mb-6">Sıkça sorulan sorular</h3>
+                <div class="space-y-6 text-muted">
+                    <div>
+                        <div class="font-semibold text-black mb-1">
+                            Teknik danışmanlık süreci nasıl ilerler?
+                        </div>
+                        Analiz, mimari tasarım, prototipleme ve geliştirme fazlarını şeffaf bir teknik roadmap ile yönetiyoruz.
+                    </div>
+                    <div>
+                        <div class="font-semibold text-black mb-1">
+                            Kod mülkiyeti ve fikri haklar kime ait?
+                        </div>
+                        Geliştirilen tüm kaynak kodların, veritabanı şemalarının ve tasarımların mülkiyeti %100 size aittir.
+                    </div>
+                    <div>
+                        <div class="font-semibold text-black mb-1">
+                            Bakım ve SLA sürekliliği sağlıyor musunuz?
+                        </div>
+                        Kritik sistemlerin 7/24 ayakta kalması için SLA garantili bakım ve uptime monitoring hizmeti sunu
+        </div>
+    </section>
+
+{% endblock %}

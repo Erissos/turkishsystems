@@ -1,0 +1,78 @@
+{% extends "main/base.html" %}
+
+{% block content %}
+    <section class="pt-40 pb-16 px-6">
+        <div class="container mx-auto text-center">
+            <div class="kicker mb-4">HAKKIMIZDA</div>
+            <h1 class="display text-4xl md:text-6xl mb-6">SaaS odaklı büyüme ve güven</h1>
+            <p class="text-muted text-lg max-w-2xl mx-auto">Ölçeklenebilir mimari, net KPI'lar ve güçlü müşteri deneyimi ile sürdürülebilir gelir.</p>
+        </div>
+    </section>
+
+    <div class="section-line"></div>
+
+    <section class="py-16 px-6" id="about">
+        <div class="container mx-auto grid grid-cols-2 md:grid-cols-4 gap-8">
+            {% for stat in stats %}
+            <div class="panel rounded-[24px] p-6 text-center">
+                <div class="text-3xl font-semibold {{ stat.color_class }} mb-2">{{ stat.value }}</div>
+                <div class="text-xs uppercase tracking-[0.3em] text-muted">{{ stat.label }}</div>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+
+    <section class="py-16 px-6">
+        <div class="container mx-auto grid lg:grid-cols-3 gap-8">
+            <div class="panel p-10 rounded-[32px]">
+                <div class="kicker mb-4">Ürün</div>
+                <h3 class="text-2xl font-semibold mb-4">Ürün Odaklı Yaklaşım</h3>
+                <p class="text-muted">Pazar uyumu, gelir modeli ve müşteri yolculuğu odaklı ürün stratejisi.</p>
+            </div>
+            <div class="panel p-10 rounded-[32px]">
+                <div class="kicker mb-4">Mimari</div>
+                <h3 class="text-2xl font-semibold mb-4">Ölçeklenebilir Altyapı</h3>
+                <p class="text-muted">Yük dengeleme, çok kiracılı yapı ve güvenli veri katmanı.</p>
+            </div>
+            <div class="panel p-10 rounded-[32px]">
+                <div class="kicker mb-4">Büyüme</div>
+                <h3 class="text-2xl font-semibold mb-4">Büyüme Operasyonu</h3>
+                <p class="text-muted">Aktivasyon, elde tutma ve churn yönetimi için otomasyonlar.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-16 px-6 section-wash">
+        <div class="container mx-auto grid lg:grid-cols-2 gap-12 items-center">
+            <div>
+                <div class="kicker mb-4">Güven</div>
+                <h2 class="display text-3xl md:text-5xl mb-6">Güven ve uyum standartları</h2>
+                <p class="text-muted mb-8">Kurumsal müşteriler için güvenlik, erişilebilirlik ve yasal uyumluluk önceliklidir.</p>
+                <ul class="space-y-4 text-muted">
+                    <li><i class="fa-solid fa-shield-halved text-accent mr-2"></i> KVKK uyumlu veri işleme politikaları</li>
+                    <li><i class="fa-solid fa-lock text-accent mr-2"></i> Rol tabanlı erişim ve audit log</li>
+                    <li><i class="fa-solid fa-cloud-arrow-up text-accent mr-2"></i> Yedekleme ve felaket kurtarma planı</li>
+                </ul>
+            </div>
+            <div class="panel p-10 rounded-[32px]">
+                <div class="kicker mb-4">METODOLOJİ</div>
+                <ol class="space-y-4 text-muted">
+                    <li><span class="text-black font-semibold">01</span> Sistem Mimarisi ve Veri Tasarımı</li>
+                    <li><span class="text-black font-semibold">02</span> Kodlama, Review ve Refactoring</li>
+                    <li><span class="text-black font-semibold">03</span> Yük Testleri ve Optimizasyon</li>
+                    <li><span class="text-black font-semibold">04</span> Production ve Sürekli Bakım</li>
+                </ol>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-20 px-6">
+        <div class="container mx-auto max-w-4xl text-center panel rounded-[36px] p-12">
+            <h2 class="display text-3xl md:text-5xl mb-6">Yolculuğunuzu birlikte büyütelim</h2>
+            <p class="text-muted text-lg mb-10">Uygun iş birliği modelini belirlemek için ekibimizle hızlı bir görüşme planlayın.</p>
+            <button type="button" data-modal-open="contact-modal" class="btn-primary">
+                {{ site.contact_button_label }}
+            </button>
+        </div>
+    </section>
+{% endblock %}

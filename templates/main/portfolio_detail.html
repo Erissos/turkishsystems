@@ -1,0 +1,22 @@
+{% extends "main/base.html" %}
+
+{% block content %}
+    <section class="pt-40 pb-20 px-6">
+        <div class="container mx-auto max-w-5xl">
+            <a href="/portfolyo/" class="text-xs uppercase tracking-[0.3em] text-accent">Portföy sayfasına dön</a>
+            <div class="mt-10 panel rounded-[32px] overflow-hidden">
+                <img src="{{ item.image_url }}" alt="{{ item.title }}" class="w-full h-[380px] object-cover">
+                <div class="p-10">
+                    <div class="kicker mb-4">Vaka çalışması</div>
+                    <h1 class="display text-4xl md:text-6xl mb-6">{{ item.title }}</h1>
+                    <p class="text-muted text-lg leading-relaxed whitespace-pre-line">{{ item.description }}</p>
+                    <div class="mt-10">
+                        <button type="button" data-modal-open="contact-modal" class="btn-primary">
+                            {{ site.contact_button_label }}
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

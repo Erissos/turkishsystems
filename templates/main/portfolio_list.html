@@ -1,0 +1,46 @@
+{% extends "main/base.html" %}
+
+{% block content %}
+    <section class="pt-40 pb-16 px-6">
+        <div class="container mx-auto text-center">
+            <div class="kicker mb-4">REFERANSLAR</div>
+            <h1 class="display text-4xl md:text-6xl mb-6">{{ site.portfolio_title }}</h1>
+            <p class="text-muted text-lg max-w-2xl mx-auto">Gelişmiş deneyimler ve canlı ürünler üzerinden çalışmalarımızı keşfedin.</p>
+        </div>
+    </section>
+
+    <section class="py-16 px-6">
+        <div class="container mx-auto grid md:grid-cols-3 gap-10">
+            {% for item in portfolio_items %}
+            <a href="{{ item.get_absolute_url }}" class="panel rounded-[28px] overflow-hidden group">
+                <img src="{{ item.image_url }}" alt="{{ item.title }}" class="w-full h-56 object-cover">
+                <div class="p-8">
+                    <h3 class="text-2xl font-semibold mb-3">{{ item.title }}</h3>
+                    <p class="text-muted line-clamp-3 whitespace-pre-line">{{ item.description }}</p>
+                    <div class="mt-6 text-xs uppercase tracking-[0.3em] text-accent">Detayı gör</div>
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+    </section>
+
+    <section class="py-16 px-6 section-wash">
+        <div class="container mx-auto grid lg:grid-cols-3 gap-8">
+            <div class="panel p-10 rounded-[32px]">
+                <div class="kicker mb-4">METODOLOJİ</div>
+                <h3 class="text-2xl font-semibold mb-4">Başarı Metodolojisi</h3>
+                <p class="text-muted">Araştırma, prototip, geliştirme ve büyüme adımlarını net KPI'lar ile yönetiyoruz.</p>
+            </div>
+            <div class="panel p-10 rounded-[32px]">
+                <div class="kicker mb-4">TEKNOLOJİ</div>
+                <h3 class="text-2xl font-semibold mb-4">Teknoloji Yığını</h3>
+                <p class="text-muted">Modern frontend, güvenli backend, otomasyon ve veri analitiği bileşenleri.</p>
+            </div>
+            <div class="panel p-10 rounded-[32px]">
+                <div class="kicker mb-4">TESLİMAT</div>
+                <h3 class="text-2xl font-semibold mb-4">Teslimat Modeli</h3>
+                <p class="text-muted">Sprint bazlı ilerleme ve sürekli geri bildirimle şeffaf teslimat.</p>
+            </div>
+        </div>
+    </section>
+{% endblock %}

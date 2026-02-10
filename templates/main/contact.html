@@ -1,0 +1,43 @@
+{% extends "main/base.html" %}
+
+{% block content %}
+    <section class="pt-40 pb-16 px-6">
+        <div class="container mx-auto max-w-4xl text-center">
+            <div class="kicker mb-4">İLETİŞİM</div>
+            <h1 class="display text-4xl md:text-6xl mb-8">{{ site.contact_title|linebreaksbr }}</h1>
+            <p class="text-muted text-lg mb-10">{{ site.contact_body }}</p>
+            <button type="button" data-modal-open="contact-modal" class="btn-primary">
+                {{ site.contact_button_label }}
+            </button>
+        </div>
+    </section>
+
+    <section class="py-16 px-6 section-wash">
+        <div class="container mx-auto grid lg:grid-cols-3 gap-8">
+            <div class="panel p-10 rounded-[32px] text-center">
+                <div class="kicker mb-3">WhatsApp</div>
+                <div class="text-2xl font-semibold mb-4">Hızlı Yanıt</div>
+                <p class="text-muted mb-6">Satış ve destek ekibimiz aynı gün içinde dönüş yapar.</p>
+                {% if site.contact_whatsapp_url %}
+                <a href="{{ site.contact_whatsapp_url }}" class="inline-flex items-center px-6 py-3 rounded-full bg-emerald-600 text-white font-semibold hover:bg-emerald-500 transition">WhatsApp'tan yaz</a>
+                {% endif %}
+            </div>
+            <div class="panel p-10 rounded-[32px] text-center">
+                <div class="kicker mb-3">E-posta</div>
+                <div class="text-2xl font-semibold mb-4">Detaylı Brief</div>
+                <p class="text-muted mb-6">Proje kapsamını ve hedeflerinizi paylaşın, 24 saat içinde dönüş alırsınız.</p>
+                {% if site.contact_email %}
+                <a href="mailto:{{ site.contact_email }}" class="inline-flex items-center px-6 py-3 rounded-full bg-slate-900 text-white font-semibold hover:bg-slate-800 transition">{{ site.contact_email }}</a>
+                {% endif %}
+            </div>
+            <div class="panel p-10 rounded-[32px] text-center">
+                <div class="kicker mb-3">LinkedIn</div>
+                <div class="text-2xl font-semibold mb-4">Kurumsal İletişim</div>
+                <p class="text-muted mb-6">Kurumsal iş birlikleri için LinkedIn üzerinden bağlantı kurun.</p>
+                {% if site.contact_linkedin_url %}
+                <a href="{{ site.contact_linkedin_url }}" class="inline-flex items-center px-6 py-3 rounded-full bg-blue-700 text-white font-semibold hover:bg-blue-600 transition">LinkedIn'de görüş</a>
+                {% endif %}
+            </div>
+        </div>
+    </section>
+{% endblock %}
