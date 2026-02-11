@@ -208,7 +208,7 @@ def home(request):
         "services": Service.objects.all(),
         "portfolio_items": PortfolioItem.objects.all(),
     }
-    return render(request, "main/home.html", context)
+    return render(request, "main/home.jinja", context, using="jinja2")
 
 
 def about_page(request):
@@ -217,7 +217,7 @@ def about_page(request):
         **_base_context(settings_obj),
         "stats": Stat.objects.all(),
     }
-    return render(request, "main/about.html", context)
+    return render(request, "main/about.jinja", context, using="jinja2")
 
 
 def services_page(request):
@@ -227,7 +227,7 @@ def services_page(request):
         "services": Service.objects.all(),
         "pricing_packages": PricingPackage.objects.all(),
     }
-    return render(request, "main/services.html", context)
+    return render(request, "main/services.jinja", context, using="jinja2")
 
 
 def portfolio_page(request):
@@ -236,7 +236,7 @@ def portfolio_page(request):
         **_base_context(settings_obj),
         "portfolio_items": PortfolioItem.objects.all(),
     }
-    return render(request, "main/portfolio_list.html", context)
+    return render(request, "main/portfolio_list.jinja", context, using="jinja2")
 
 
 def portfolio_detail(request, slug: str = "", pk: int | None = None):
@@ -249,10 +249,10 @@ def portfolio_detail(request, slug: str = "", pk: int | None = None):
         **_base_context(settings_obj),
         "item": item,
     }
-    return render(request, "main/portfolio_detail.html", context)
+    return render(request, "main/portfolio_detail.jinja", context, using="jinja2")
 
 
 def contact_page(request):
     settings_obj = _ensure_defaults()
     context = _base_context(settings_obj)
-    return render(request, "main/contact.html", context)
+    return render(request, "main/contact.jinja", context, using="jinja2")

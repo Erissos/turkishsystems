@@ -1,4 +1,4 @@
-{% extends "main/base.html" %}
+{% extends "main/base.jinja" %}
 
 {% block content %}
     <section class="pt-40 pb-16 px-6">
@@ -12,7 +12,7 @@
     <section class="py-16 px-6">
         <div class="container mx-auto grid md:grid-cols-3 gap-10">
             {% for item in portfolio_items %}
-            <a href="{{ item.get_absolute_url }}" class="panel rounded-[28px] overflow-hidden group">
+            <a href="{{ item.get_absolute_url() }}" class="panel rounded-[28px] overflow-hidden group">
                 <img src="{{ item.image_url }}" alt="{{ item.title }}" class="w-full h-56 object-cover">
                 <div class="p-8">
                     <h3 class="text-2xl font-semibold mb-3">{{ item.title }}</h3>

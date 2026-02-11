@@ -1,4 +1,4 @@
-{% extends "main/base.html" %}
+{% extends "main/base.jinja" %}
 
 {% block content %}
     <section class="pt-40 pb-16 px-6">
@@ -113,7 +113,7 @@
                 <h3 class="text-3xl font-semibold mb-2">{{ pkg.price }}</h3>
                 <p class="text-muted mb-6">{{ pkg.description }}</p>
                 <ul class="text-sm space-y-3 text-muted">
-                    {% for feature in pkg.get_features_list %}
+                    {% for feature in pkg.get_features_list() %}
                     <li><i class="fa-solid fa-check text-accent mr-2"></i> {{ feature }}</li>
                     {% endfor %}
                 </ul>
