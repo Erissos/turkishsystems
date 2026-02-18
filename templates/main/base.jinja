@@ -9,308 +9,351 @@
     {% endif %}
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,700&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&display=swap');
-
         :root {
-            --bg: #f6f7f9;
-            --bg-2: #eef1f5;
-            --ink: #0f172a;
-            --ink-2: #111827;
-            --muted: #5f6b7a;
-            --accent: #b91c1c;
-            --accent-2: #0f172a;
-            --accent-3: #9a3412;
-            --panel: rgba(255, 255, 255, 0.9);
-            --border: rgba(15, 23, 42, 0.12);
+            --canvas:   #0d0b09;
+            --canvas-2: #131110;
+            --canvas-3: #1a1714;
+            --ink:      #f0e8d6;
+            --ink-2:    #c8bfb0;
+            --ink-3:    #6e6458;
+            --gold:     #c09a45;
+            --gold-lt:  #debb72;
+            --gold-dk:  #6b5322;
+            --rule:     rgba(192,154,69,.15);
+            --rule-lt:  rgba(240,232,214,.06);
         }
+
+        *, *::before, *::after { box-sizing: border-box; }
 
         body {
-            font-family: 'Manrope', sans-serif;
-            background-color: var(--bg);
+            font-family: 'DM Sans', sans-serif;
+            background: var(--canvas);
             color: var(--ink);
             overflow-x: hidden;
+            font-weight: 300;
+            line-height: 1.75;
         }
 
-        .display {
-            font-family: 'Manrope', sans-serif;
+        /* Noise grain overlay */
+        body::after {
+            content: '';
+            position: fixed;
+            inset: 0;
+            z-index: 999;
+            pointer-events: none;
+            opacity: .03;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
+        }
+
+        /* Typography */
+        .serif   { font-family: 'Playfair Display', Georgia, serif; }
+        .mono    { font-family: 'DM Mono', 'Courier New', monospace; }
+        .display { font-family: 'Playfair Display', Georgia, serif; line-height: 1.08; }
+
+        .label {
+            font-family: 'DM Mono', monospace;
+            font-size: .63rem;
+            letter-spacing: .3em;
+            text-transform: uppercase;
+            color: var(--gold);
+        }
+
+        .caption {
+            font-size: .72rem;
+            letter-spacing: .12em;
+            text-transform: uppercase;
+            color: var(--ink-3);
+        }
+
+        /* Dividers */
+        .h-rule    { height: 1px; background: var(--rule); }
+        .h-rule-lt { height: 1px; background: var(--rule-lt); }
+
+        /* Cards */
+        .art-card {
+            background: var(--canvas-2);
+            border: 1px solid var(--rule);
+            transition: border-color .4s, transform .4s;
+        }
+        .art-card:hover { border-color: var(--gold-dk); transform: translateY(-5px); }
+
+        /* Buttons */
+        .btn-gold {
+            display: inline-flex;
+            align-items: center;
+            gap: .5rem;
+            padding: .8rem 1.9rem;
+            background: var(--gold);
+            color: var(--canvas);
+            font-family: 'DM Mono', monospace;
+            font-size: .72rem;
+            letter-spacing: .2em;
+            text-transform: uppercase;
+            font-weight: 500;
+            border: none;
+            cursor: pointer;
+            transition: background .25s, transform .2s;
+            text-decoration: none;
+        }
+        .btn-gold:hover { background: var(--gold-lt); transform: translateY(-1px); }
+
+        .btn-ghost {
+            display: inline-flex;
+            align-items: center;
+            gap: .5rem;
+            padding: .78rem 1.9rem;
+            background: transparent;
+            color: var(--gold);
+            font-family: 'DM Mono', monospace;
+            font-size: .72rem;
+            letter-spacing: .2em;
+            text-transform: uppercase;
+            border: 1px solid var(--gold-dk);
+            transition: border-color .25s, background .25s;
+            cursor: pointer;
+            text-decoration: none;
+        }
+        .btn-ghost:hover { border-color: var(--gold); background: rgba(192,154,69,.06); }
+
+        /* Nav */
+        .site-nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 100;
+            height: 72px;
+            display: flex;
+            align-items: center;
+            background: rgba(13,11,9,.9);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--rule);
+        }
+
+        .nav-inner {
+            width: 100%;
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 2.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .wordmark {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.1rem;
             font-weight: 700;
-            letter-spacing: -0.01em;
+            letter-spacing: .03em;
+            color: var(--ink);
+            text-decoration: none;
+        }
+        .wordmark em { color: var(--gold); font-style: italic; }
+
+        .nav-menu { display: flex; align-items: center; gap: 2.5rem; }
+
+        .nav-link {
+            font-family: 'DM Mono', monospace;
+            font-size: .68rem;
+            letter-spacing: .18em;
+            text-transform: uppercase;
+            color: var(--ink-2);
+            text-decoration: none;
+            transition: color .2s;
+        }
+        .nav-link:hover { color: var(--gold-lt); }
+
+        /* Helpers */
+        .text-gold    { color: var(--gold); }
+        .text-gold-lt { color: var(--gold-lt); }
+        .text-muted   { color: var(--ink-3); }
+        .text-soft    { color: var(--ink-2); }
+
+        .section-pad    { padding: 7rem 2.5rem; }
+        .section-pad-sm { padding: 4.5rem 2.5rem; }
+        .wrap           { max-width: 1280px; margin: 0 auto; }
+
+        /* Img zoom */
+        .img-zoom { overflow: hidden; }
+        .img-zoom img { transition: transform .7s ease; display: block; width: 100%; height: 100%; object-fit: cover; }
+        .img-zoom:hover img { transform: scale(1.05); }
+
+        /* Scroll fade */
+        .fade-up { opacity: 0; transform: translateY(28px); transition: opacity .75s ease, transform .75s ease; }
+        .fade-up.visible { opacity: 1; transform: none; }
+
+        /* Stagger children */
+        .stagger > * { opacity: 0; transform: translateY(20px); transition: opacity .6s ease, transform .6s ease; }
+        .stagger.visible > *:nth-child(1) { opacity:1; transform:none; transition-delay:.05s; }
+        .stagger.visible > *:nth-child(2) { opacity:1; transform:none; transition-delay:.15s; }
+        .stagger.visible > *:nth-child(3) { opacity:1; transform:none; transition-delay:.25s; }
+        .stagger.visible > *:nth-child(4) { opacity:1; transform:none; transition-delay:.35s; }
+
+        /* Modal */
+        .modal-bg {
+            position: fixed; inset: 0; z-index: 200;
+            background: rgba(5,3,2,.88); backdrop-filter: blur(8px);
+            align-items: center; justify-content: center; padding: 2rem;
+        }
+        .modal-box {
+            width: 100%; max-width: 500px;
+            background: var(--canvas-2);
+            border: 1px solid var(--rule);
+            padding: 3rem;
         }
 
-        .mesh-bg {
-            position: fixed;
-            inset: 0;
-            z-index: -2;
-            background:
-                radial-gradient(circle at 10% 0%, rgba(15, 23, 42, 0.08) 0%, transparent 45%),
-                radial-gradient(circle at 90% 20%, rgba(185, 28, 28, 0.08) 0%, transparent 45%),
-                radial-gradient(circle at 60% 85%, rgba(15, 23, 42, 0.08) 0%, transparent 45%);
-        }
-
-
-
-        .grain {
-            position: fixed;
-            inset: 0;
-            z-index: -1;
-            opacity: 0.2;
-            background-image: repeating-linear-gradient(
-                135deg,
-                rgba(0, 0, 0, 0.025) 0,
-                rgba(0, 0, 0, 0.025) 1px,
-                transparent 1px,
-                transparent 5px
-            );
+        /* Decorative ring */
+        .ring {
+            position: absolute;
+            border-radius: 50%;
+            border: 1px solid var(--rule);
             pointer-events: none;
         }
 
-        .panel,
-        .glass-card {
-            background: var(--panel);
-            border: 1px solid var(--border);
-            box-shadow: 0 20px 40px rgba(15, 23, 42, 0.08);
-            backdrop-filter: blur(12px);
-            transition: transform 0.25s ease, border 0.25s ease, box-shadow 0.25s ease;
-        }
+        /* Section bg variants */
+        .bg-alt { background: var(--canvas-2); }
+        .bg-alt2 { background: var(--canvas-3); }
 
-        .panel:hover,
-        .glass-card:hover {
-            transform: translateY(-6px);
-            border-color: rgba(185, 28, 28, 0.35);
-            box-shadow: 0 28px 60px rgba(15, 23, 42, 0.12);
+        @media (max-width: 768px) {
+            .nav-menu { gap: 1.2rem; }
+            .section-pad { padding: 5rem 1.5rem; }
+            .section-pad-sm { padding: 3rem 1.5rem; }
         }
-
-        .kicker {
-            text-transform: uppercase;
-            letter-spacing: 0.28em;
-            font-size: 0.7rem;
-            color: var(--accent);
-        }
-
-        .accent-text {
-            color: var(--accent);
-        }
-
-        .text-muted {
-            color: var(--muted);
-        }
-
-        .text-accent {
-            color: var(--accent);
-        }
-
-        .btn-primary {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-            padding: 0.95rem 2.2rem;
-            border-radius: 999px;
-            font-weight: 700;
-            color: #ffffff;
-            background: linear-gradient(120deg, #b91c1c, #ef4444);
-            box-shadow: 0 16px 30px rgba(185, 28, 28, 0.25);
-            transition: transform 0.25s ease, box-shadow 0.25s ease;
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-2px) scale(1.01);
-            box-shadow: 0 22px 40px rgba(185, 28, 28, 0.28);
-        }
-
-        .btn-outline {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-            padding: 0.9rem 2.2rem;
-            border-radius: 999px;
-            border: 1px solid var(--border);
-            color: var(--ink);
-            background: rgba(255, 255, 255, 0.8);
-            transition: border 0.2s ease, color 0.2s ease, background 0.2s ease;
-        }
-
-        .btn-outline:hover {
-            border-color: rgba(185, 28, 28, 0.4);
-            background: rgba(185, 28, 28, 0.05);
-        }
-
-        .nav-link {
-            position: relative;
-            padding-bottom: 0.35rem;
-        }
-
-        .nav-link::after {
-            content: '';
-            position: absolute;
-            left: 0;
-            bottom: 0;
-            width: 0;
-            height: 2px;
-            background: linear-gradient(90deg, var(--accent-2), var(--accent));
-            transition: width 0.3s ease;
-        }
-        .nav-link:hover::after { width: 100%; }
-
-        .section-line {
-            height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(15, 23, 42, 0.2), transparent);
-        }
-
-        .section-wash {
-            background: linear-gradient(180deg, #ffffff 0%, var(--bg-2) 100%);
-        }
-
-        .hero-shell {
-            background-color: #0f172a;
-            background-image: 
-                linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-                linear-gradient(135deg, #0b1222 0%, #111827 100%);
-            background-size: 40px 40px, 40px 40px, cover;
-            border-radius: 0 0 48px 48px;
-            color: #f8fafc;
-        }
-
-        .hero-shell .text-muted {
-            color: rgba(248, 250, 252, 0.7);
-        }
-
-        .hero-shell .panel {
-            background: rgba(255, 255, 255, 0.08);
-            border-color: rgba(255, 255, 255, 0.18);
-            box-shadow: none;
-        }
-
-        .grid-pattern {
-            background-image:
-                linear-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255, 255, 255, 0.08) 1px, transparent 1px);
-            background-size: 48px 48px;
+        @media (max-width: 640px) {
+            .nav-menu .nav-link { display: none; }
         }
     </style>
 </head>
 <body>
 
-    <div class="mesh-bg"></div>
-    <div class="grain"></div>
-
-    <header class="fixed w-full z-50 top-0 bg-white/90 backdrop-blur-lg border-b border-black/5">
-        <nav class="container mx-auto px-6 py-5 flex justify-between items-center">
-            <div class="flex items-center space-x-2">
-                <a href="/" class="text-xl font-semibold tracking-tight uppercase">
-                    {{ site.brand_name }}<span class="accent-text">{{ site.brand_highlight }}</span>
-                </a>
-            </div>
-
-            <div class="hidden md:flex items-center space-x-10 font-semibold text-sm">
+    <!-- NAV -->
+    <header class="site-nav">
+        <div class="nav-inner">
+            <a href="/" class="wordmark">{{ site.brand_name }}<em>{{ site.brand_highlight }}</em></a>
+            <nav class="nav-menu">
                 {% for link in nav_links %}
                     {% if link.is_primary %}
-                        <a href="{{ link.url }}" class="btn-primary text-sm">{{ link.label }}</a>
+                        <a href="{{ link.url }}" class="btn-gold" style="padding: .6rem 1.4rem; font-size:.68rem;">{{ link.label }}</a>
                     {% else %}
-                        <a href="{{ link.url }}" class="nav-link text-muted">{{ link.label }}</a>
+                        <a href="{{ link.url }}" class="nav-link">{{ link.label }}</a>
                     {% endif %}
                 {% endfor %}
-            </div>
-        </nav>
+            </nav>
+        </div>
     </header>
 
+    <!-- CONTENT -->
     {% block content %}{% endblock %}
 
-    <footer class="py-16 border-t border-black/5 section-wash">
-        <div class="container mx-auto px-6">
-            <div class="grid lg:grid-cols-3 gap-10 items-start">
+    <!-- FOOTER -->
+    <footer style="background:var(--canvas-2); border-top:1px solid var(--rule); padding: 5rem 2.5rem 3rem;">
+        <div class="wrap">
+            <div style="display:grid; grid-template-columns:2fr 1fr 1fr; gap:4rem;" class="footer-grid">
+
                 <div>
-                    <div class="text-2xl font-semibold mb-4 uppercase">
-                        {{ site.brand_name }}<span class="accent-text">{{ site.brand_highlight }}</span>
+                    <div class="wordmark" style="font-size:1.25rem; display:block; margin-bottom:1.25rem;">
+                        {{ site.brand_name }}<em>{{ site.brand_highlight }}</em>
                     </div>
-                    <p class="text-muted max-w-xs text-sm">{{ site.footer_intro }}</p>
-                </div>
-                <div class="text-sm text-muted">
-                    <div class="kicker mb-4">Hızlı Erişim</div>
-                    <div class="space-y-2">
-                        {% for link in nav_links %}
-                        <a href="{{ link.url }}" class="block hover:text-white transition">{{ link.label }}</a>
-                        {% endfor %}
-                    </div>
-                </div>
-                <div class="text-sm text-muted">
-                    <div class="kicker mb-4">SOSYAL</div>
-                    <div class="space-y-2">
+                    <p style="font-size:.85rem; color:var(--ink-3); line-height:1.8; max-width:280px;">{{ site.footer_intro }}</p>
+                    <div class="h-rule" style="margin:2rem 0 1.5rem;"></div>
+                    <div style="display:flex; gap:1.5rem; flex-wrap:wrap;">
                         {% for link in social_links %}
-                        <a href="{{ link.url }}" class="block hover:text-white transition">{{ link.label }}</a>
+                        <a href="{{ link.url }}" class="caption" style="text-decoration:none;" onmouseover="this.style.color='var(--gold-lt)'" onmouseout="this.style.color=''">{{ link.label }}</a>
                         {% endfor %}
+                    </div>
+                </div>
+
+                <div>
+                    <div class="label" style="margin-bottom:1.5rem;">Sayfalar</div>
+                    <div style="display:flex; flex-direction:column; gap:.75rem;">
+                        {% for link in nav_links %}
+                        <a href="{{ link.url }}" style="font-size:.85rem; color:var(--ink-2); text-decoration:none; transition:color .2s;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--ink-2)'">{{ link.label }}</a>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div>
+                    <div class="label" style="margin-bottom:1.5rem;">İletişim</div>
+                    <div style="display:flex; flex-direction:column; gap:.75rem; font-size:.85rem; color:var(--ink-2);">
+                        {% if site.contact_email %}
+                        <a href="mailto:{{ site.contact_email }}" style="color:var(--ink-2); text-decoration:none;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--ink-2)'">{{ site.contact_email }}</a>
+                        {% endif %}
+                        {% if site.contact_whatsapp_url %}
+                        <a href="{{ site.contact_whatsapp_url }}" style="color:var(--ink-2); text-decoration:none;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--ink-2)'">WhatsApp</a>
+                        {% endif %}
+                        {% if site.contact_linkedin_url %}
+                        <a href="{{ site.contact_linkedin_url }}" style="color:var(--ink-2); text-decoration:none;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--ink-2)'">LinkedIn</a>
+                        {% endif %}
                     </div>
                 </div>
             </div>
-            <div class="mt-12 pt-6 border-t border-black/5 text-center text-muted text-sm">
-                {{ site.footer_copyright }}
+
+            <div class="h-rule" style="margin:3.5rem 0 1.5rem;"></div>
+            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:.75rem;">
+                <span class="caption" style="font-size:.7rem;">{{ site.footer_copyright }}</span>
+                <span class="caption" style="font-size:.7rem; color:var(--gold-dk);">Atölye · 2026</span>
             </div>
         </div>
     </footer>
 
-    <div id="contact-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/40 p-6" aria-hidden="true">
-        <div class="w-full max-w-xl rounded-[32px] border border-black/10 bg-white p-10 text-center shadow-2xl">
-            <div class="text-2xl font-semibold mb-3 display">Projenizi Başlatalım</div>
-            <p class="text-muted mb-8">Teknik detayları, mimari gereksinimleri ve iş hedeflerinizi konuşmak için mühendislik ekibimizle doğrudan iletişime geçin.</p>
-            <div class="grid gap-4">
+    <!-- CONTACT MODAL -->
+    <div id="contact-modal" class="modal-bg hidden" aria-hidden="true" style="display:none;">
+        <div class="modal-box">
+
+            <div style="height:2px; background:linear-gradient(90deg,var(--gold),transparent); margin-bottom:2.5rem;"></div>
+
+            <div class="label" style="margin-bottom:.75rem;">Atölye İletişim</div>
+            <h2 class="display" style="font-size:2rem; margin-bottom:1rem;">Projenizi<br><em>Başlatalım</em></h2>
+            <p style="font-size:.85rem; color:var(--ink-3); line-height:1.8; margin-bottom:2rem;">Mühendislik ekibimizle doğrudan iletişime geçin.</p>
+
+            <div style="display:flex; flex-direction:column; gap:.75rem;">
                 {% if site.contact_whatsapp_url %}
-                <a href="{{ site.contact_whatsapp_url }}" class="flex items-center justify-center gap-3 rounded-2xl bg-emerald-600 px-6 py-4 font-bold text-white hover:bg-emerald-500 transition">
-                    <i class="fa-brands fa-whatsapp text-xl"></i> WhatsApp
+                <a href="{{ site.contact_whatsapp_url }}" style="display:flex; align-items:center; gap:1rem; padding:1rem; border:1px solid var(--rule); text-decoration:none; transition:border-color .25s; background:rgba(192,154,69,.03);" onmouseover="this.style.borderColor='var(--gold)'" onmouseout="this.style.borderColor='var(--rule)'">
+                    <div style="width:38px; height:38px; border:1px solid var(--gold-dk); display:flex; align-items:center; justify-content:center; flex-shrink:0;"><i class="fa-brands fa-whatsapp" style="color:var(--gold);"></i></div>
+                    <div><div class="caption" style="margin-bottom:.25rem; font-size:.63rem;">Anlık yanıt</div><div style="font-size:.85rem; color:var(--ink-2);">WhatsApp üzerinden yaz</div></div>
+                    <i class="fa-solid fa-arrow-right" style="margin-left:auto; font-size:.75rem; color:var(--ink-3);"></i>
                 </a>
                 {% endif %}
+
                 {% if site.contact_email %}
-                <a href="mailto:{{ site.contact_email }}" class="flex items-center justify-center gap-3 rounded-2xl bg-slate-900 px-6 py-4 font-bold text-white hover:bg-slate-800 transition">
-                    <i class="fa-solid fa-envelope text-xl"></i> E-posta
+                <a href="mailto:{{ site.contact_email }}" style="display:flex; align-items:center; gap:1rem; padding:1rem; border:1px solid var(--rule); text-decoration:none; transition:border-color .25s; background:rgba(192,154,69,.03);" onmouseover="this.style.borderColor='var(--gold)'" onmouseout="this.style.borderColor='var(--rule)'">
+                    <div style="width:38px; height:38px; border:1px solid var(--gold-dk); display:flex; align-items:center; justify-content:center; flex-shrink:0;"><i class="fa-solid fa-envelope" style="color:var(--gold);"></i></div>
+                    <div><div class="caption" style="margin-bottom:.25rem; font-size:.63rem;">Detaylı brief</div><div style="font-size:.85rem; color:var(--ink-2);">{{ site.contact_email }}</div></div>
+                    <i class="fa-solid fa-arrow-right" style="margin-left:auto; font-size:.75rem; color:var(--ink-3);"></i>
                 </a>
                 {% endif %}
+
                 {% if site.contact_linkedin_url %}
-                <a href="{{ site.contact_linkedin_url }}" class="flex items-center justify-center gap-3 rounded-2xl bg-blue-700 px-6 py-4 font-bold text-white hover:bg-blue-600 transition">
-                    <i class="fa-brands fa-linkedin text-xl"></i> LinkedIn
+                <a href="{{ site.contact_linkedin_url }}" style="display:flex; align-items:center; gap:1rem; padding:1rem; border:1px solid var(--rule); text-decoration:none; transition:border-color .25s; background:rgba(192,154,69,.03);" onmouseover="this.style.borderColor='var(--gold)'" onmouseout="this.style.borderColor='var(--rule)'">
+                    <div style="width:38px; height:38px; border:1px solid var(--gold-dk); display:flex; align-items:center; justify-content:center; flex-shrink:0;"><i class="fa-brands fa-linkedin" style="color:var(--gold);"></i></div>
+                    <div><div class="caption" style="margin-bottom:.25rem; font-size:.63rem;">Kurumsal iş birliği</div><div style="font-size:.85rem; color:var(--ink-2);">LinkedIn profili</div></div>
+                    <i class="fa-solid fa-arrow-right" style="margin-left:auto; font-size:.75rem; color:var(--ink-3);"></i>
                 </a>
                 {% endif %}
             </div>
-            <button type="button" data-modal-close="contact-modal" class="mt-8 text-sm uppercase tracking-widest text-muted hover:text-black">Kapat</button>
+
+            <button type="button" data-modal-close="contact-modal"
+                style="margin-top:2rem; font-family:'DM Mono',monospace; font-size:.65rem; letter-spacing:.2em; text-transform:uppercase; color:var(--ink-3); background:none; border:none; cursor:pointer; display:flex; align-items:center; gap:.5rem;"
+                onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--ink-3)'">
+                <i class="fa-solid fa-xmark"></i> Kapat
+            </button>
         </div>
     </div>
 
     <script>
+        /* ── MODAL ── */
         const modal = document.getElementById('contact-modal');
-        const openButtons = document.querySelectorAll('[data-modal-open="contact-modal"]');
-        const closeButtons = document.querySelectorAll('[data-modal-close="contact-modal"]');
+        const show = () => { modal.style.display = 'flex'; modal.setAttribute('aria-hidden','false'); };
+        const hide = () => { modal.style.display = 'none'; modal.setAttribute('aria-hidden','true'); };
+        document.querySelectorAll('[data-modal-open="contact-modal"]').forEach(b => b.addEventListener('click', show));
+        document.querySelectorAll('[data-modal-close="contact-modal"]').forEach(b => b.addEventListener('click', hide));
+        modal?.addEventListener('click', e => { if (e.target === modal) hide(); });
 
-        const toggleModal = (isOpen) => {
-            if (!modal) {
-                return;
-            }
-            if (isOpen) {
-                modal.classList.remove('hidden');
-                modal.classList.add('flex');
-                modal.setAttribute('aria-hidden', 'false');
-            } else {
-                modal.classList.add('hidden');
-                modal.classList.remove('flex');
-                modal.setAttribute('aria-hidden', 'true');
-            }
-        };
-
-        openButtons.forEach((button) => {
-            button.addEventListener('click', () => toggleModal(true));
-        });
-
-        closeButtons.forEach((button) => {
-            button.addEventListener('click', () => toggleModal(false));
-        });
-
-        if (modal) {
-            modal.addEventListener('click', (event) => {
-                if (event.target === modal) {
-                    toggleModal(false);
-                }
-            });
-        }
+        /* ── SCROLL FADE ── */
+        const io = new IntersectionObserver(entries => {
+            entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } });
+        }, { threshold: .1 });
+        document.querySelectorAll('.fade-up, .stagger').forEach(el => io.observe(el));
     </script>
 
     {% block extra_scripts %}{% endblock %}

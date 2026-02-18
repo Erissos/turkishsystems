@@ -1,46 +1,124 @@
 {% extends "main/base.jinja" %}
 
 {% block content %}
-    <section class="pt-40 pb-16 px-6">
-        <div class="container mx-auto text-center">
-            <div class="kicker mb-4">REFERANSLAR</div>
-            <h1 class="display text-4xl md:text-6xl mb-6">{{ site.portfolio_title }}</h1>
-            <p class="text-muted text-lg max-w-2xl mx-auto">Gelişmiş deneyimler ve canlı ürünler üzerinden çalışmalarımızı keşfedin.</p>
-        </div>
-    </section>
 
-    <section class="py-16 px-6">
-        <div class="container mx-auto grid md:grid-cols-3 gap-10">
+<!-- PAGE HEADER -->
+<section style="padding-top:72px; background:var(--canvas-2); border-bottom:1px solid var(--rule);">
+    <div class="wrap" style="padding:5rem 2.5rem 4rem;">
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:5rem; align-items:end;" class="pf-header-grid">
+            <div>
+                <div class="label" style="margin-bottom:1.25rem;">Referanslar</div>
+                <h1 class="display" style="font-size:clamp(2.5rem,5vw,4.5rem); font-weight:900; line-height:1.04;">
+                    {{ site.portfolio_title }}
+                </h1>
+            </div>
+            <div>
+                <div class="h-rule" style="margin-bottom:1.5rem;"></div>
+                <p style="font-size:.95rem; color:var(--ink-2); line-height:1.85;">Müşterilerimizle birlikte geliştirilen, üretime alınan ve ölçeklenen projelerin bir seçkisi. Her proje belirli bir mühendislik zorluğunun yanıtıdır.</p>
+            </div>
+        </div>
+    </div>
+    <div style="height:2px; background:linear-gradient(90deg,transparent,var(--gold-dk),transparent);"></div>
+</section>
+<style> @media(max-width:768px){ .pf-header-grid { grid-template-columns:1fr !important; gap:2rem !important; } } </style>
+
+
+<!-- PORTFOLIO GRID -->
+<section class="section-pad">
+    <div class="wrap">
+        <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--rule);" class="pf-main-grid">
             {% for item in portfolio_items %}
-            <a href="{{ item.get_absolute_url() }}" class="panel rounded-[28px] overflow-hidden group">
-                <img src="{{ item.image_url }}" alt="{{ item.title }}" class="w-full h-56 object-cover">
-                <div class="p-8">
-                    <h3 class="text-2xl font-semibold mb-3">{{ item.title }}</h3>
-                    <p class="text-muted line-clamp-3 whitespace-pre-line">{{ item.description }}</p>
-                    <div class="mt-6 text-xs uppercase tracking-[0.3em] text-accent">Detayı gör</div>
+            <a href="{{ item.get_absolute_url() }}" style="display:block; text-decoration:none; background:var(--canvas-2); position:relative; overflow:hidden; group;" class="img-zoom art-card" style="padding:0;">
+
+                <!-- Catalogue number -->
+                <div style="position:absolute; top:1.25rem; left:1.25rem; z-index:3; font-family:'DM Mono','Space Mono',monospace; font-size:.65rem; letter-spacing:.2em; color:var(--gold); background:rgba(13,11,9,.85); padding:.35rem .75rem; backdrop-filter:blur(4px);">
+                    CAT &mdash; 0{{ loop.index }}
                 </div>
+
+                <!-- Image wrapper -->
+                <div style="aspect-ratio:4/3; overflow:hidden; position:relative;">
+                    <img src="{{ item.image_url }}" alt="{{ item.title }}" loading="lazy"
+                         style="width:100%; height:100%; object-fit:cover; display:block; transition:transform .55s cubic-bezier(.25,.46,.45,.94);">
+                    <div style="position:absolute; inset:0; background:linear-gradient(to top, rgba(13,11,9,.85) 0%, transparent 55%); pointer-events:none;"></div>
+                </div>
+
+                <!-- Text -->
+                <div style="padding:1.5rem 1.5rem 2rem;">
+                    <div class="display" style="font-size:1.1rem; font-weight:700; color:var(--ink); margin-bottom:.6rem; line-height:1.35;">{{ item.title }}</div>
+                    <p style="font-size:.82rem; color:var(--ink-3); line-height:1.75; display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden;">{{ item.description }}</p>
+                    <div style="margin-top:1.25rem; display:flex; align-items:center; gap:.5rem; font-family:'DM Mono',monospace; font-size:.72rem; color:var(--gold); letter-spacing:.1em;">
+                        Projeyi İncele <i class="fa-solid fa-arrow-right" style="font-size:.65rem;"></i>
+                    </div>
+                </div>
+
+                <!-- Bottom accent -->
+                <div style="position:absolute; bottom:0; left:0; right:0; height:1px; background:linear-gradient(90deg, var(--gold-dk), transparent);"></div>
             </a>
             {% endfor %}
         </div>
-    </section>
 
-    <section class="py-16 px-6 section-wash">
-        <div class="container mx-auto grid lg:grid-cols-3 gap-8">
-            <div class="panel p-10 rounded-[32px]">
-                <div class="kicker mb-4">METODOLOJİ</div>
-                <h3 class="text-2xl font-semibold mb-4">Başarı Metodolojisi</h3>
-                <p class="text-muted">Araştırma, prototip, geliştirme ve büyüme adımlarını net KPI'lar ile yönetiyoruz.</p>
-            </div>
-            <div class="panel p-10 rounded-[32px]">
-                <div class="kicker mb-4">TEKNOLOJİ</div>
-                <h3 class="text-2xl font-semibold mb-4">Teknoloji Yığını</h3>
-                <p class="text-muted">Modern frontend, güvenli backend, otomasyon ve veri analitiği bileşenleri.</p>
-            </div>
-            <div class="panel p-10 rounded-[32px]">
-                <div class="kicker mb-4">TESLİMAT</div>
-                <h3 class="text-2xl font-semibold mb-4">Teslimat Modeli</h3>
-                <p class="text-muted">Sprint bazlı ilerleme ve sürekli geri bildirimle şeffaf teslimat.</p>
-            </div>
+        <style> @media(max-width:900px){ .pf-main-grid { grid-template-columns:1fr 1fr !important; } }
+                @media(max-width:600px){ .pf-main-grid { grid-template-columns:1fr !important; } } </style>
+
+        {% if not portfolio_items %}
+        <div style="text-align:center; padding:6rem 2rem; color:var(--ink-3);">
+            <div class="label" style="margin-bottom:1rem;">Yakında</div>
+            <p style="font-size:.95rem;">Portföy projeleri yükleniyor...</p>
         </div>
-    </section>
+        {% endif %}
+    </div>
+</section>
+
+
+<!-- METHODOLOGY STRIP -->
+<section class="section-pad-sm bg-alt">
+    <div class="wrap">
+        <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--rule);" class="mth-strip">
+
+            <div style="background:var(--canvas-2); padding:2.25rem 1.75rem;">
+                <div class="label" style="color:var(--gold-lt); margin-bottom:1rem;">Metodoloji</div>
+                <h3 class="display" style="font-size:1.1rem; font-weight:700; margin-bottom:.9rem;">Araştırma & Tasarım</h3>
+                <p style="font-size:.84rem; color:var(--ink-3); line-height:1.8;">Her proje gerçek kullanıcı verisiyle başlar; varsayımları değil, ölçümü esas alırız.</p>
+            </div>
+
+            <div style="background:var(--canvas-2); padding:2.25rem 1.75rem; border-left:1px solid var(--rule);">
+                <div class="label" style="color:var(--gold-lt); margin-bottom:1rem;">Teknoloji</div>
+                <h3 class="display" style="font-size:1.1rem; font-weight:700; margin-bottom:.9rem;">Stack Seçimi</h3>
+                <p style="font-size:.84rem; color:var(--ink-3); line-height:1.8;">Modaya değil, problemin gereksinimlerine göre doğru teknolojiyi seçiyoruz.</p>
+            </div>
+
+            <div style="background:var(--canvas-2); padding:2.25rem 1.75rem; border-left:1px solid var(--rule);">
+                <div class="label" style="color:var(--gold-lt); margin-bottom:1rem;">Teslimat</div>
+                <h3 class="display" style="font-size:1.1rem; font-weight:700; margin-bottom:.9rem;">CI/CD & Monitoring</h3>
+                <p style="font-size:.84rem; color:var(--ink-3); line-height:1.8;">Otomatik test ve canlı izleme ile sağlıklı bir ürün döngüsü kuruyoruz.</p>
+            </div>
+
+        </div>
+        <style> @media(max-width:768px){ .mth-strip { grid-template-columns:1fr !important; } .mth-strip > div { border-left:none !important; border-top:1px solid var(--rule); } } </style>
+    </div>
+</section>
+
+
+<!-- CTA -->
+<section class="section-pad">
+    <div class="wrap">
+        <div style="position:relative; border:1px solid var(--rule); padding:4rem 3rem; text-align:center; overflow:hidden;">
+            <div style="position:absolute; top:0; left:0; right:0; height:2px; background:linear-gradient(90deg, transparent, var(--gold), transparent);"></div>
+
+            <div aria-hidden="true" style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); font-family:'Playfair Display',serif; font-size:12rem; font-weight:900; color:var(--ink); opacity:.025; white-space:nowrap; pointer-events:none; user-select:none; line-height:1;">TS</div>
+
+            <div class="label" style="margin-bottom:1rem; position:relative; z-index:1;">Yeni Proje</div>
+            <h2 class="display fade-up" style="font-size:clamp(1.8rem,3.5vw,2.8rem); font-weight:700; position:relative; z-index:1; margin-bottom:1rem;">
+                Sıradaki Proje <em style="color:var(--gold); font-style:italic;">Sizin</em> Projeniz
+            </h2>
+            <p style="font-size:.95rem; color:var(--ink-2); line-height:1.85; max-width:420px; margin:0 auto 2.5rem; position:relative; z-index:1;">
+                Fikrinden lansmanına kadar her aşamada yanınızdayız.
+            </p>
+            <button class="btn-gold" data-modal-open="contact-modal" style="position:relative; z-index:1; cursor:pointer;">
+                <i class="fa-solid fa-paper-plane" style="margin-right:.6rem;"></i>Projeyi Başlat
+            </button>
+        </div>
+    </div>
+</section>
+
 {% endblock %}

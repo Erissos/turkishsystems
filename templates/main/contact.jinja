@@ -1,43 +1,135 @@
 {% extends "main/base.jinja" %}
 
 {% block content %}
-    <section class="pt-40 pb-16 px-6">
-        <div class="container mx-auto max-w-4xl text-center">
-            <div class="kicker mb-4">İLETİŞİM</div>
-            <h1 class="display text-4xl md:text-6xl mb-8">{{ site.contact_title|linebreaksbr }}</h1>
-            <p class="text-muted text-lg mb-10">{{ site.contact_body }}</p>
-            <button type="button" data-modal-open="contact-modal" class="btn-primary">
-                {{ site.contact_button_label }}
+
+<!-- PAGE HEADER -->
+<section style="padding-top:72px; background:var(--canvas-2); border-bottom:1px solid var(--rule);">
+    <div class="wrap" style="padding:5rem 2.5rem 4rem;">
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:5rem; align-items:end;" class="cnt-header-grid">
+            <div>
+                <div class="label" style="margin-bottom:1.25rem;">İletişim</div>
+                <h1 class="display" style="font-size:clamp(2.5rem,5vw,4.5rem); font-weight:900; line-height:1.04; white-space:pre-line;">
+                    {{ site.contact_title }}
+                </h1>
+            </div>
+            <div>
+                <div class="h-rule" style="margin-bottom:1.5rem;"></div>
+                <p style="font-size:.95rem; color:var(--ink-2); line-height:1.85;">Teknik danışmanlık, proje değerlendirmesi veya ücretsiz keşif görüşmesi için doğrudan bize ulaşın. Her talep özenle incelenir.</p>
+            </div>
+        </div>
+    </div>
+    <div style="height:2px; background:linear-gradient(90deg,transparent,var(--gold-dk),transparent);"></div>
+</section>
+<style> @media(max-width:768px){ .cnt-header-grid { grid-template-columns:1fr !important; gap:2rem !important; } } </style>
+
+
+<!-- CONTACT CHANNELS -->
+<section class="section-pad">
+    <div class="wrap">
+
+        <div class="label" style="margin-bottom:1.25rem; text-align:center;">Kanallar</div>
+
+        <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--rule); max-width:900px; margin:0 auto 5rem;" class="cnt-cards">
+
+            {% if site.contact_whatsapp_url %}
+            <div class="art-card" style="padding:2.5rem 1.75rem; position:relative; overflow:hidden;">
+                <div style="position:absolute; top:0; left:0; right:0; height:1px; background:linear-gradient(90deg,var(--gold-dk),transparent);"></div>
+                <div style="width:48px; height:48px; border:1px solid var(--rule); display:flex; align-items:center; justify-content:center; margin-bottom:1.75rem;">
+                    <i class="fab fa-whatsapp" style="color:var(--gold); font-size:1.1rem;"></i>
+                </div>
+                <div class="label" style="margin-bottom:.75rem;">WhatsApp</div>
+                <p style="font-size:.85rem; color:var(--ink-3); line-height:1.7; margin-bottom:1.5rem;">Anında yanıt ve hızlı teknik ön-görüşme için ideal kanal.</p>
+                <a href="{{ site.contact_whatsapp_url }}" target="_blank" rel="noopener" class="btn-gold" style="font-size:.78rem; padding:.65rem 1.4rem; display:inline-flex; align-items:center; gap:.5rem;">
+                    <i class="fab fa-whatsapp"></i> Yaz
+                </a>
+            </div>
+            {% endif %}
+
+            {% if site.contact_email %}
+            <div class="art-card" style="padding:2.5rem 1.75rem; position:relative; overflow:hidden;">
+                <div style="position:absolute; top:0; left:0; right:0; height:1px; background:linear-gradient(90deg,var(--gold-dk),transparent);"></div>
+                <div style="width:48px; height:48px; border:1px solid var(--rule); display:flex; align-items:center; justify-content:center; margin-bottom:1.75rem;">
+                    <i class="fa-solid fa-envelope" style="color:var(--gold); font-size:1rem;"></i>
+                </div>
+                <div class="label" style="margin-bottom:.75rem;">E-Posta</div>
+                <p style="font-size:.85rem; color:var(--ink-3); line-height:1.7; margin-bottom:1.5rem;">Detaylı teknik talep ve teklif için profesyonel e-posta iletişimi.</p>
+                <a href="mailto:{{ site.contact_email }}" class="btn-gold" style="font-size:.78rem; padding:.65rem 1.4rem; display:inline-flex; align-items:center; gap:.5rem;">
+                    <i class="fa-solid fa-envelope"></i> Gönder
+                </a>
+            </div>
+            {% endif %}
+
+            {% if site.contact_linkedin_url %}
+            <div class="art-card" style="padding:2.5rem 1.75rem; position:relative; overflow:hidden;">
+                <div style="position:absolute; top:0; left:0; right:0; height:1px; background:linear-gradient(90deg,var(--gold-dk),transparent);"></div>
+                <div style="width:48px; height:48px; border:1px solid var(--rule); display:flex; align-items:center; justify-content:center; margin-bottom:1.75rem;">
+                    <i class="fab fa-linkedin-in" style="color:var(--gold); font-size:1rem;"></i>
+                </div>
+                <div class="label" style="margin-bottom:.75rem;">LinkedIn</div>
+                <p style="font-size:.85rem; color:var(--ink-3); line-height:1.7; margin-bottom:1.5rem;">Profesyonel profil ve iş ağı bağlantısı için LinkedIn üzerinden ulaşın.</p>
+                <a href="{{ site.contact_linkedin_url }}" target="_blank" rel="noopener" class="btn-gold" style="font-size:.78rem; padding:.65rem 1.4rem; display:inline-flex; align-items:center; gap:.5rem;">
+                    <i class="fab fa-linkedin-in"></i> Bağlan
+                </a>
+            </div>
+            {% endif %}
+
+        </div>
+
+        <style> @media(max-width:768px){ .cnt-cards { grid-template-columns:1fr !important; margin-bottom:3rem !important; } } </style>
+
+
+        <!-- CONTACT CTA PANEL -->
+        <div style="position:relative; border:1px solid var(--rule); padding:4rem 3rem; text-align:center; overflow:hidden;">
+            <div style="position:absolute; top:0; left:0; right:0; height:2px; background:linear-gradient(90deg, transparent, var(--gold), transparent);"></div>
+
+            <!-- Watermark -->
+            <div aria-hidden="true" style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); font-family:'Playfair Display',serif; font-size:12rem; font-weight:900; color:var(--ink); opacity:.025; white-space:nowrap; pointer-events:none; user-select:none; line-height:1;">
+                TS
+            </div>
+
+            <div class="label" style="margin-bottom:1rem; position:relative; z-index:1;">Hızlı İletişim</div>
+            <h2 class="display fade-up" style="font-size:clamp(1.8rem,3.5vw,2.8rem); font-weight:700; position:relative; z-index:1; margin-bottom:1rem;">
+                Projenizi Detaylı <em style="color:var(--gold); font-style:italic;">Görelim</em>
+            </h2>
+            <p style="font-size:.95rem; color:var(--ink-2); line-height:1.85; max-width:450px; margin:0 auto 2.5rem; position:relative; z-index:1;">
+                Teknik detayları ifade edemeden bile yazabilirsiniz. Gereksinimi birlikte anlamlandırırız.
+            </p>
+            <button class="btn-gold" data-modal-open="contact-modal" style="position:relative; z-index:1; cursor:pointer;">
+                <i class="fa-solid fa-paper-plane" style="margin-right:.6rem;"></i>Mesaj Gönder
             </button>
         </div>
-    </section>
 
-    <section class="py-16 px-6 section-wash">
-        <div class="container mx-auto grid lg:grid-cols-3 gap-8">
-            <div class="panel p-10 rounded-[32px] text-center">
-                <div class="kicker mb-3">WhatsApp</div>
-                <div class="text-2xl font-semibold mb-4">Hızlı Yanıt</div>
-                <p class="text-muted mb-6">Satış ve destek ekibimiz aynı gün içinde dönüş yapar.</p>
-                {% if site.contact_whatsapp_url %}
-                <a href="{{ site.contact_whatsapp_url }}" class="inline-flex items-center px-6 py-3 rounded-full bg-emerald-600 text-white font-semibold hover:bg-emerald-500 transition">WhatsApp'tan yaz</a>
-                {% endif %}
+    </div>
+</section>
+
+
+<!-- INFO STRIP -->
+<section class="section-pad-sm bg-alt">
+    <div class="wrap">
+        <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:var(--rule);" class="info-strip">
+            <div style="background:var(--canvas-2); padding:2rem 1.5rem; text-align:center;">
+                <i class="fa-solid fa-clock" style="color:var(--gold); font-size:1.4rem; margin-bottom:1rem; display:block;"></i>
+                <div class="display" style="font-size:1rem; font-weight:700; margin-bottom:.4rem;">24 Saat</div>
+                <div style="font-size:.78rem; color:var(--ink-3);">Yanıt Süresi</div>
             </div>
-            <div class="panel p-10 rounded-[32px] text-center">
-                <div class="kicker mb-3">E-posta</div>
-                <div class="text-2xl font-semibold mb-4">Detaylı Brief</div>
-                <p class="text-muted mb-6">Proje kapsamını ve hedeflerinizi paylaşın, 24 saat içinde dönüş alırsınız.</p>
-                {% if site.contact_email %}
-                <a href="mailto:{{ site.contact_email }}" class="inline-flex items-center px-6 py-3 rounded-full bg-slate-900 text-white font-semibold hover:bg-slate-800 transition">{{ site.contact_email }}</a>
-                {% endif %}
+            <div style="background:var(--canvas-2); padding:2rem 1.5rem; text-align:center; border-left:1px solid var(--rule);">
+                <i class="fa-solid fa-shield-halved" style="color:var(--gold); font-size:1.4rem; margin-bottom:1rem; display:block;"></i>
+                <div class="display" style="font-size:1rem; font-weight:700; margin-bottom:.4rem;">%100</div>
+                <div style="font-size:.78rem; color:var(--ink-3);">NDA Güvencesi</div>
             </div>
-            <div class="panel p-10 rounded-[32px] text-center">
-                <div class="kicker mb-3">LinkedIn</div>
-                <div class="text-2xl font-semibold mb-4">Kurumsal İletişim</div>
-                <p class="text-muted mb-6">Kurumsal iş birlikleri için LinkedIn üzerinden bağlantı kurun.</p>
-                {% if site.contact_linkedin_url %}
-                <a href="{{ site.contact_linkedin_url }}" class="inline-flex items-center px-6 py-3 rounded-full bg-blue-700 text-white font-semibold hover:bg-blue-600 transition">LinkedIn'de görüş</a>
-                {% endif %}
+            <div style="background:var(--canvas-2); padding:2rem 1.5rem; text-align:center; border-left:1px solid var(--rule);">
+                <i class="fa-solid fa-magnifying-glass-chart" style="color:var(--gold); font-size:1.4rem; margin-bottom:1rem; display:block;"></i>
+                <div class="display" style="font-size:1rem; font-weight:700; margin-bottom:.4rem;">Ücretsiz</div>
+                <div style="font-size:.78rem; color:var(--ink-3);">Teknik Analiz</div>
+            </div>
+            <div style="background:var(--canvas-2); padding:2rem 1.5rem; text-align:center; border-left:1px solid var(--rule);">
+                <i class="fa-solid fa-location-dot" style="color:var(--gold); font-size:1.4rem; margin-bottom:1rem; display:block;"></i>
+                <div class="display" style="font-size:1rem; font-weight:700; margin-bottom:.4rem;">Türkiye</div>
+                <div style="font-size:.78rem; color:var(--ink-3);">& Uzaktan</div>
             </div>
         </div>
-    </section>
+        <style> @media(max-width:768px){ .info-strip { grid-template-columns:1fr 1fr !important; } .info-strip > div { border-left:none !important; border-top:1px solid var(--rule); } } </style>
+    </div>
+</section>
+
 {% endblock %}

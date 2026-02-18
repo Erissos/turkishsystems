@@ -1,78 +1,154 @@
 {% extends "main/base.jinja" %}
 
 {% block content %}
-    <section class="pt-40 pb-16 px-6">
-        <div class="container mx-auto text-center">
-            <div class="kicker mb-4">HAKKIMIZDA</div>
-            <h1 class="display text-4xl md:text-6xl mb-6">SaaS odaklı büyüme ve güven</h1>
-            <p class="text-muted text-lg max-w-2xl mx-auto">Ölçeklenebilir mimari, net KPI'lar ve güçlü müşteri deneyimi ile sürdürülebilir gelir.</p>
+
+<!-- PAGE HEADER -->
+<section style="padding-top:72px; background:var(--canvas-2); border-bottom:1px solid var(--rule); padding-bottom:0;">
+    <div class="wrap" style="padding:5rem 2.5rem 0;">
+
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:5rem; align-items:end; padding-bottom:4rem;" class="about-header-grid">
+            <div>
+                <div class="label" style="margin-bottom:1.25rem;">Hakkımızda</div>
+                <h1 class="display" style="font-size:clamp(2.5rem,5vw,4.5rem); font-weight:900; line-height:1.04;">
+                    Mühendislik<br><em style="color:var(--gold); font-style:italic;">Disiplini ve Güven</em>
+                </h1>
+            </div>
+            <div style="padding-bottom:.5rem;">
+                <div class="h-rule" style="margin-bottom:2rem;"></div>
+                <p style="font-size:1rem; color:var(--ink-2); line-height:1.85;">Projenizin gereksinimlerine göre şekillenen özel mimari kararlar, titiz code review süreçleri ve production sonrası da süren teknik destek ile kalıcı yazılım ekosistemi inşa ediyoruz.</p>
+            </div>
         </div>
-    </section>
 
-    <div class="section-line"></div>
+    </div>
 
-    <section class="py-16 px-6" id="about">
-        <div class="container mx-auto grid grid-cols-2 md:grid-cols-4 gap-8">
+    <!-- Gold bottom line -->
+    <div style="height:2px; background:linear-gradient(90deg, transparent, var(--gold-dk), transparent);"></div>
+</section>
+
+<style> @media(max-width:768px){ .about-header-grid { grid-template-columns:1fr !important; gap:2rem !important; } } </style>
+
+
+<!-- STATS STRIP -->
+<section style="background:var(--canvas); border-bottom:1px solid var(--rule);">
+    <div class="wrap" style="padding:0 2.5rem;">
+        <div class="stagger" style="display:grid; grid-template-columns:repeat(4,1fr); background:var(--rule); gap:1px;" class="stats-strip">
             {% for stat in stats %}
-            <div class="panel rounded-[24px] p-6 text-center">
-                <div class="text-3xl font-semibold {{ stat.color_class }} mb-2">{{ stat.value }}</div>
-                <div class="text-xs uppercase tracking-[0.3em] text-muted">{{ stat.label }}</div>
+            <div style="background:var(--canvas); padding:2.5rem 2rem; text-align:center;">
+                <div class="display" style="font-size:3rem; font-weight:900; color:var(--gold); line-height:1; margin-bottom:.5rem;">{{ stat.value }}</div>
+                <div class="caption" style="font-size:.65rem;">{{ stat.label }}</div>
             </div>
             {% endfor %}
         </div>
-    </section>
+    </div>
+</section>
 
-    <section class="py-16 px-6">
-        <div class="container mx-auto grid lg:grid-cols-3 gap-8">
-            <div class="panel p-10 rounded-[32px]">
-                <div class="kicker mb-4">Ürün</div>
-                <h3 class="text-2xl font-semibold mb-4">Ürün Odaklı Yaklaşım</h3>
-                <p class="text-muted">Pazar uyumu, gelir modeli ve müşteri yolculuğu odaklı ürün stratejisi.</p>
+<style> @media(max-width:700px){ .stats-strip { grid-template-columns:1fr 1fr !important; } } </style>
+
+
+<!-- VALUES -->
+<section class="section-pad">
+    <div class="wrap">
+
+        <div class="label" style="margin-bottom:1.5rem;">Değerlerimiz</div>
+
+        <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:1px; background:var(--rule);" class="values-grid">
+
+            <div class="art-card" style="padding:2.5rem 2rem;">
+                <div class="display" style="font-size:4.5rem; font-weight:900; color:rgba(192,154,69,.1); font-style:italic; line-height:1; margin-bottom:1.5rem;">I</div>
+                <div class="label" style="margin-bottom:.75rem; color:var(--gold-lt);">Tasarım</div>
+                <h3 class="display" style="font-size:1.2rem; font-weight:700; margin-bottom:1rem;">Mimari Önce</h3>
+                <p style="font-size:.87rem; color:var(--ink-3); line-height:1.8;">Geliştirmeye başlamadan önce doğru sistem tasarımını kurguluyoruz. Teknik borç yaratmayan, büyüyebilen yapılar inşa ediyoruz.</p>
             </div>
-            <div class="panel p-10 rounded-[32px]">
-                <div class="kicker mb-4">Mimari</div>
-                <h3 class="text-2xl font-semibold mb-4">Ölçeklenebilir Altyapı</h3>
-                <p class="text-muted">Yük dengeleme, çok kiracılı yapı ve güvenli veri katmanı.</p>
+
+            <div class="art-card" style="padding:2.5rem 2rem;">
+                <div class="display" style="font-size:4.5rem; font-weight:900; color:rgba(192,154,69,.1); font-style:italic; line-height:1; margin-bottom:1.5rem;">II</div>
+                <div class="label" style="margin-bottom:.75rem; color:var(--gold-lt);">Mühendislik</div>
+                <h3 class="display" style="font-size:1.2rem; font-weight:700; margin-bottom:1rem;">Kod Kalitesi</h3>
+                <p style="font-size:.87rem; color:var(--ink-3); line-height:1.8;">Clean code, SOLID prensipleri ve kapsamlı test kapsamı ile yıllar sonra da bakımı kolay yazılımlar teslim ediyoruz.</p>
             </div>
-            <div class="panel p-10 rounded-[32px]">
-                <div class="kicker mb-4">Büyüme</div>
-                <h3 class="text-2xl font-semibold mb-4">Büyüme Operasyonu</h3>
-                <p class="text-muted">Aktivasyon, elde tutma ve churn yönetimi için otomasyonlar.</p>
+
+            <div class="art-card" style="padding:2.5rem 2rem;">
+                <div class="display" style="font-size:4.5rem; font-weight:900; color:rgba(192,154,69,.1); font-style:italic; line-height:1; margin-bottom:1.5rem;">III</div>
+                <div class="label" style="margin-bottom:.75rem; color:var(--gold-lt);">Operasyon</div>
+                <h3 class="display" style="font-size:1.2rem; font-weight:700; margin-bottom:1rem;">Sürekli Destek</h3>
+                <p style="font-size:.87rem; color:var(--ink-3); line-height:1.8;">Lansman sonrası izleme, güvenlik yamaları ve performans optimizasyonu ile ürününüzü sağlıklı tutuyoruz.</p>
             </div>
+
         </div>
-    </section>
+    </div>
+    <style> @media(max-width:768px){ .values-grid { grid-template-columns:1fr !important; } } </style>
+</section>
 
-    <section class="py-16 px-6 section-wash">
-        <div class="container mx-auto grid lg:grid-cols-2 gap-12 items-center">
-            <div>
-                <div class="kicker mb-4">Güven</div>
-                <h2 class="display text-3xl md:text-5xl mb-6">Güven ve uyum standartları</h2>
-                <p class="text-muted mb-8">Kurumsal müşteriler için güvenlik, erişilebilirlik ve yasal uyumluluk önceliklidir.</p>
-                <ul class="space-y-4 text-muted">
-                    <li><i class="fa-solid fa-shield-halved text-accent mr-2"></i> KVKK uyumlu veri işleme politikaları</li>
-                    <li><i class="fa-solid fa-lock text-accent mr-2"></i> Rol tabanlı erişim ve audit log</li>
-                    <li><i class="fa-solid fa-cloud-arrow-up text-accent mr-2"></i> Yedekleme ve felaket kurtarma planı</li>
+
+<!-- TRUST & METHOD -->
+<section class="section-pad bg-alt">
+    <div class="wrap">
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:5rem; align-items:start;" class="trust-grid">
+
+            <!-- Left -->
+            <div class="fade-up">
+                <div class="label" style="margin-bottom:1.25rem;">Güven</div>
+                <h2 class="display" style="font-size:clamp(1.8rem,3.5vw,3rem); font-weight:700; margin-bottom:1.5rem; line-height:1.15;">
+                    Kurumsal<br><em style="color:var(--gold); font-style:italic;">Güven Standartları</em>
+                </h2>
+                <p style="font-size:.9rem; color:var(--ink-2); line-height:1.85; margin-bottom:2rem;">
+                    Güvenlik, yasal uyumluluk ve şeffaflık her projenin temel gereksinimidir; bir seçenek değil zorunluluktur.
+                </p>
+
+                <div class="h-rule" style="margin-bottom:2rem;"></div>
+
+                <ul style="list-style:none; padding:0; display:flex; flex-direction:column; gap:1.25rem;">
+                    <li style="display:flex; align-items:center; gap:1rem; font-size:.88rem; color:var(--ink-2);">
+                        <span style="width:32px; height:32px; border:1px solid var(--gold-dk); display:flex; align-items:center; justify-content:center; flex-shrink:0;"><i class="fa-solid fa-shield-halved" style="color:var(--gold); font-size:.75rem;"></i></span>
+                        KVKK uyumlu veri işleme politikaları
+                    </li>
+                    <li style="display:flex; align-items:center; gap:1rem; font-size:.88rem; color:var(--ink-2);">
+                        <span style="width:32px; height:32px; border:1px solid var(--gold-dk); display:flex; align-items:center; justify-content:center; flex-shrink:0;"><i class="fa-solid fa-lock" style="color:var(--gold); font-size:.75rem;"></i></span>
+                        Rol tabanlı erişim ve audit log
+                    </li>
+                    <li style="display:flex; align-items:center; gap:1rem; font-size:.88rem; color:var(--ink-2);">
+                        <span style="width:32px; height:32px; border:1px solid var(--gold-dk); display:flex; align-items:center; justify-content:center; flex-shrink:0;"><i class="fa-solid fa-cloud-arrow-up" style="color:var(--gold); font-size:.75rem;"></i></span>
+                        Yedekleme ve felaket kurtarma planı
+                    </li>
                 </ul>
             </div>
-            <div class="panel p-10 rounded-[32px]">
-                <div class="kicker mb-4">METODOLOJİ</div>
-                <ol class="space-y-4 text-muted">
-                    <li><span class="text-black font-semibold">01</span> Sistem Mimarisi ve Veri Tasarımı</li>
-                    <li><span class="text-black font-semibold">02</span> Kodlama, Review ve Refactoring</li>
-                    <li><span class="text-black font-semibold">03</span> Yük Testleri ve Optimizasyon</li>
-                    <li><span class="text-black font-semibold">04</span> Production ve Sürekli Bakım</li>
-                </ol>
-            </div>
-        </div>
-    </section>
 
-    <section class="py-20 px-6">
-        <div class="container mx-auto max-w-4xl text-center panel rounded-[36px] p-12">
-            <h2 class="display text-3xl md:text-5xl mb-6">Yolculuğunuzu birlikte büyütelim</h2>
-            <p class="text-muted text-lg mb-10">Uygun iş birliği modelini belirlemek için ekibimizle hızlı bir görüşme planlayın.</p>
-            <button type="button" data-modal-open="contact-modal" class="btn-primary">
-                {{ site.contact_button_label }}
+            <!-- Right: Methodology steps -->
+            <div class="fade-up">
+                <div class="label" style="margin-bottom:1.5rem;">Metodoloji</div>
+
+                <div style="display:flex; flex-direction:column; gap:0; background:var(--rule);">
+                    {% set steps = [('01','Gereksinim Analizi ve RFC Hazırlığı'),('02','Mimari Tasarım ve Teknoloji Seçimi'),('03','Agile Geliştirme ve Code Review Döngüsü'),('04','Yük Testi, Güvenlik Taraması ve Production')] %}
+                    {% for num, text in steps %}
+                    <div style="background:var(--canvas-2); padding:1.5rem 1.75rem; border-bottom:1px solid var(--rule); display:flex; gap:1.5rem; align-items:center;">
+                        <span class="display" style="font-size:1.3rem; font-weight:900; color:var(--gold-dk); font-style:italic; min-width:2rem;">{{ num }}</span>
+                        <span style="font-size:.88rem; color:var(--ink-2);">{{ text }}</span>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <style> @media(max-width:768px){ .trust-grid { grid-template-columns:1fr !important; gap:3rem !important; } } </style>
+</section>
+
+
+<!-- CTA -->
+<section class="section-pad">
+    <div class="wrap">
+        <div class="fade-up" style="text-align:center; padding:4rem; border:1px solid var(--rule); background:var(--canvas-2); position:relative; overflow:hidden;">
+            <div style="position:absolute; top:0; left:0; right:0; height:2px; background:linear-gradient(90deg,transparent,var(--gold),transparent);"></div>
+            <div class="label" style="margin-bottom:1rem;">Başlayalım</div>
+            <h2 class="display" style="font-size:clamp(1.8rem,4vw,3.2rem); font-weight:700; margin-bottom:1.5rem;">
+                Projenizi Birlikte <em style="color:var(--gold);">İnşa Edelim</em>
+            </h2>
+            <p style="font-size:.95rem; color:var(--ink-2); max-width:480px; margin:0 auto 2.5rem; line-height:1.8;">Teknik gereksiniminizi anlamak için ücretsiz bir keşif görüşmesi planlayalım.</p>
+            <button type="button" data-modal-open="contact-modal" class="btn-gold">
+                {{ site.contact_button_label }} &nbsp;<i class="fa-solid fa-arrow-right" style="font-size:.65rem;"></i>
             </button>
         </div>
-    </section>
+    </div>
+</section>
+
 {% endblock %}
