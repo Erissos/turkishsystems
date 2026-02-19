@@ -6,7 +6,7 @@ SECRET_KEY = "django-insecure-change-me"
 
 DEBUG = True
 
-ALLOWED_HOSTS: list[str] = []
+ALLOWED_HOSTS: list[str] = ["turkish.systems"]
 
 CSRF_TRUSTED_ORIGINS: list[str] = ["https://turkish.systems"]
 
