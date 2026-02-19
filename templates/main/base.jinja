@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="tr" class="scroll-smooth">
+<html lang="tr" class="scroll-smooth" style="overflow-x:hidden;">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -214,13 +214,133 @@
         .bg-alt { background: var(--canvas-2); }
         .bg-alt2 { background: var(--canvas-3); }
 
-        @media (max-width: 768px) {
-            .nav-menu { gap: 1.2rem; }
-            .section-pad { padding: 5rem 1.5rem; }
-            .section-pad-sm { padding: 3rem 1.5rem; }
+        /* ── Hamburger ── */
+        .nav-hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            background: none;
+            border: none;
+            padding: .5rem;
+            z-index: 110;
         }
+        .nav-hamburger span {
+            display: block;
+            width: 22px;
+            height: 1px;
+            background: var(--ink);
+            transition: transform .3s, opacity .3s;
+        }
+        .nav-hamburger.open span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+        .nav-hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+        .nav-hamburger.open span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+
+        /* ── Mobile menu overlay ── */
+        .mobile-menu {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 105;
+            background: rgba(13,11,9,.96);
+            backdrop-filter: blur(16px);
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 2rem;
+            padding: 2rem;
+            text-align: center;
+        }
+        .mobile-menu.open { display: flex; }
+        .mobile-menu .m-link {
+            font-family: 'DM Mono', monospace;
+            font-size: 1rem;
+            letter-spacing: .18em;
+            text-transform: uppercase;
+            color: var(--ink-2);
+            text-decoration: none;
+            transition: color .2s;
+            padding: .5rem 0;
+        }
+        .mobile-menu .m-link:hover { color: var(--gold-lt); }
+
+        /* ── Responsive ── */
+        @media (max-width: 1024px) {
+            .nav-inner { padding: 0 1.5rem; }
+            .nav-menu { gap: 1.25rem; }
+        }
+
+        @media (max-width: 900px) {
+            .section-pad    { padding: 4rem 1.25rem !important; }
+            .section-pad-sm { padding: 2.5rem 1.25rem !important; }
+            .wrap { padding-left: 1.25rem !important; padding-right: 1.25rem !important; }
+            footer { padding: 3rem 1.25rem 2rem !important; }
+
+            /* grid → tek kolon */
+            .hero-grid,
+            .about-header-grid,
+            .trust-grid,
+            .srv-header-grid,
+            .faq-grid,
+            .pf-header-grid,
+            .cnt-header-grid,
+            .det-grid,
+            .rel-grid,
+            .footer-grid,
+            .services-grid,
+            .portfolio-grid,
+            .values-grid,
+            .srv-grid,
+            .exp-grid,
+            .pkg-grid,
+            .pf-main-grid,
+            .mth-strip,
+            .cnt-cards { grid-template-columns: 1fr !important; }
+
+            .stats-strip,
+            .info-strip { grid-template-columns: repeat(2,1fr) !important; }
+
+            .exp-grid > div,
+            .mth-strip > div,
+            .info-strip > div {
+                border-left: none !important;
+                border-top: 1px solid var(--rule);
+            }
+
+            .det-grid > div:last-child { position: static !important; }
+
+            /* gap küçültme */
+            .hero-grid { gap: 2.5rem !important; }
+
+            /* büyük CTA panelleri */
+            .cta-box { padding: 3rem 1.5rem !important; }
+        }
+
         @media (max-width: 640px) {
-            .nav-menu .nav-link { display: none; }
+            .nav-menu { display: none; }
+            .nav-hamburger { display: flex; }
+            .nav-inner { padding: 0 1rem; }
+
+            .section-pad    { padding: 3rem 1rem !important; }
+            .section-pad-sm { padding: 2rem 1rem !important; }
+            .wrap { padding-left: 1rem !important; padding-right: 1rem !important; }
+            footer { padding: 2.5rem 1rem 1.5rem !important; }
+
+            .modal-box { padding: 2rem 1.25rem !important; }
+
+            .stats-strip,
+            .info-strip { grid-template-columns: repeat(2,1fr) !important; }
+
+            .cta-box { padding: 2.5rem 1rem !important; }
+
+            /* hero iç wrap */
+            .hero-section-wrap { padding: 4rem 1rem 3rem !important; }
+
+            /* butonlar tam genişlik */
+            .btn-gold, .btn-ghost {
+                width: 100%;
+                justify-content: center;
+            }
         }
     </style>
 </head>
@@ -239,8 +359,24 @@
                     {% endif %}
                 {% endfor %}
             </nav>
+
+            <!-- Hamburger -->
+            <button class="nav-hamburger" id="nav-hamburger" aria-label="Menüyü aç/kapat" type="button">
+                <span></span><span></span><span></span>
+            </button>
         </div>
     </header>
+
+    <!-- Mobil Menü -->
+    <div class="mobile-menu" id="mobile-menu" aria-hidden="true">
+        {% for link in nav_links %}
+            {% if link.is_primary %}
+                <a href="{{ link.url }}" class="btn-gold m-link">{{ link.label }}</a>
+            {% else %}
+                <a href="{{ link.url }}" class="m-link">{{ link.label }}</a>
+            {% endif %}
+        {% endfor %}
+    </div>
 
     <!-- CONTENT -->
     {% block content %}{% endblock %}
@@ -341,6 +477,22 @@
     </div>
 
     <script>
+        /* ── HAMBURGER ── */
+        const hamburger = document.getElementById('nav-hamburger');
+        const mobileMenu = document.getElementById('mobile-menu');
+        hamburger?.addEventListener('click', () => {
+            const open = hamburger.classList.toggle('open');
+            mobileMenu.classList.toggle('open', open);
+            mobileMenu.setAttribute('aria-hidden', String(!open));
+            document.body.style.overflow = open ? 'hidden' : '';
+        });
+        mobileMenu?.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+            hamburger.classList.remove('open');
+            mobileMenu.classList.remove('open');
+            mobileMenu.setAttribute('aria-hidden', 'true');
+            document.body.style.overflow = '';
+        }));
+
         /* ── MODAL ── */
         const modal = document.getElementById('contact-modal');
         const show = () => { modal.style.display = 'flex'; modal.setAttribute('aria-hidden','false'); };
