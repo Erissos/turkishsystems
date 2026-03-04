@@ -141,3 +141,100 @@ class PricingPackage(models.Model):
 
     def get_features_list(self) -> list[str]:
         return [f.strip() for f in self.features.split("\n") if f.strip()]
+
+
+class Product(models.Model):
+    name = models.CharField(max_length=200)
+    slug = models.SlugField(max_length=200, unique=True, blank=True)
+    short_description = models.TextField()
+    detailed_features = models.TextField(help_text="Her satıra bir detaylı özellik yazın")
+    order = models.PositiveIntegerField(default=0)
+    is_active = models.BooleanField(default=True)
+
+    class Meta:
+        ordering = ["order", "id"]
+
+    def __str__(self) -> str:
+        return self.name
+
+    def save(self, *args, **kwargs) -> None:
+        if not self.slug:
+            self.slug = slugify(self.name)
+        super().save(*args, **kwargs)
+
+    def get_detailed_features_list(self) -> list[str]:
+        return [item.strip() for item in self.detailed_features.split("\n") if item.strip()]
+
+
+class ProductPackage(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name="packages")
+    name = models.CharField(max_length=120)
+    price = models.CharField(max_length=80)
+    description = models.TextField()
+    features = models.TextField(help_text="Her satıra bir paket özelliği yazın")
+    is_highlighted = models.BooleanField(default=False)
+    ask_details_on_order = models.BooleanField(
+        default=False,
+        help_text='Açıksa, sipariş formunda "Detayları belirtin" alanı görünür.',
+    )
+    order = models.PositiveIntegerField(default=0)
+
+    class Meta:
+        ordering = ["order", "id"]
+
+    def __str__(self) -> str:
+        return f"{self.product.name} - {self.name}"
+
+    def get_features_list(self) -> list[str]:
+        return [item.strip() for item in self.features.split("\n") if item.strip()]
+
+
+class ProductReview(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name="reviews")
+    full_name = models.CharField(max_length=120)
+    role = models.CharField(max_length=120, blank=True)
+    comment = models.TextField()
+    order = models.PositiveIntegerField(default=0)
+    is_published = models.BooleanField(default=True)
+
+    class Meta:
+        ordering = ["order", "id"]
+
+    def __str__(self) -> str:
+        return f"{self.product.name} - {self.full_name}"
+
+
+class ProductFAQ(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name="faqs")
+    question = models.CharField(max_length=250)
+    answer = models.TextField()
+    order = models.PositiveIntegerField(default=0)
+    is_active = models.BooleanField(default=True)
+
+    class Meta:
+        ordering = ["order", "id"]
+
+    def __str__(self) -> str:
+        return f"{self.product.name} - {self.question[:60]}"
+
+
+class ProductOrder(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name="orders")
+    package = models.ForeignKey(
+        ProductPackage,
+        on_delete=models.SET_NULL,
+        related_name="orders",
+        null=True,
+        blank=True,
+    )
+    full_name = models.CharField(max_length=150)
+    email = models.EmailField()
+    phone = models.CharField(max_length=40, blank=True)
+    detail_note = models.TextField(blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ["-created_at"]
+
+    def __str__(self) -> str:
+        return f"{self.product.name} sipariş - {self.full_name}"

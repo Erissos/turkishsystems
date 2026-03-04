@@ -1,6 +1,20 @@
 from django.contrib import admin
+from django.contrib.admin.sites import AlreadyRegistered
 
-from .models import NavLink, PortfolioItem, PricingPackage, Service, SiteSettings, SocialLink, Stat
+from .models import (
+    NavLink,
+    PortfolioItem,
+    PricingPackage,
+    Product,
+    ProductFAQ,
+    ProductOrder,
+    ProductPackage,
+    ProductReview,
+    Service,
+    SiteSettings,
+    SocialLink,
+    Stat,
+)
 
 @admin.register(PricingPackage)
 class PricingPackageAdmin(admin.ModelAdmin):
@@ -43,3 +57,43 @@ class PortfolioItemAdmin(admin.ModelAdmin):
 class SocialLinkAdmin(admin.ModelAdmin):
     list_display = ("label", "url", "order")
     list_editable = ("order",)
+
+
+class ProductPackageInline(admin.TabularInline):
+    model = ProductPackage
+    extra = 0
+    fields = ("name", "price", "is_highlighted", "ask_details_on_order", "order")
+
+
+class ProductReviewInline(admin.TabularInline):
+    model = ProductReview
+    extra = 0
+    fields = ("full_name", "role", "is_published", "order")
+
+
+class ProductFAQInline(admin.TabularInline):
+    model = ProductFAQ
+    extra = 0
+    fields = ("question", "is_active", "order")
+
+
+class ProductOrderInline(admin.TabularInline):
+    model = ProductOrder
+    extra = 0
+    can_delete = False
+    fields = ("package", "full_name", "email", "phone", "detail_note", "created_at")
+    readonly_fields = ("package", "full_name", "email", "phone", "detail_note", "created_at")
+
+
+class ProductAdmin(admin.ModelAdmin):
+    list_display = ("name", "slug", "is_active", "order")
+    list_editable = ("is_active", "order")
+    prepopulated_fields = {"slug": ("name",)}
+    inlines = (ProductPackageInline, ProductReviewInline, ProductFAQInline, ProductOrderInline)
+
+
+try:
+    admin.site.register(Product, ProductAdmin)
+except AlreadyRegistered:
+    admin.site.unregister(Product)
+    admin.site.register(Product, ProductAdmin)
