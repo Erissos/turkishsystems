@@ -10,6 +10,8 @@ from .models import (
     ProductOrder,
     ProductPackage,
     ProductReview,
+    ProjectRequest,
+    Reference,
     Service,
     SiteSettings,
     SocialLink,
@@ -48,9 +50,15 @@ class ServiceAdmin(admin.ModelAdmin):
 
 @admin.register(PortfolioItem)
 class PortfolioItemAdmin(admin.ModelAdmin):
-    list_display = ("title", "image", "order")
-    list_editable = ("order",)
+    list_display = ("title", "client_name", "industry", "is_featured", "is_live", "order")
+    list_editable = ("is_featured", "is_live", "order")
     prepopulated_fields = {"slug": ("title",)}
+
+
+@admin.register(Reference)
+class ReferenceAdmin(admin.ModelAdmin):
+    list_display = ("company_name", "person_name", "role", "is_featured", "order")
+    list_editable = ("is_featured", "order")
 
 
 @admin.register(SocialLink)
@@ -83,6 +91,14 @@ class ProductOrderInline(admin.TabularInline):
     can_delete = False
     fields = ("package", "full_name", "email", "phone", "detail_note", "created_at")
     readonly_fields = ("package", "full_name", "email", "phone", "detail_note", "created_at")
+
+
+@admin.register(ProjectRequest)
+class ProjectRequestAdmin(admin.ModelAdmin):
+    list_display = ("full_name", "company_name", "request_type", "status", "created_at")
+    list_filter = ("request_type", "status", "wants_portal_access")
+    search_fields = ("full_name", "email", "company_name", "project_scope")
+    list_editable = ("status",)
 
 
 class ProductAdmin(admin.ModelAdmin):

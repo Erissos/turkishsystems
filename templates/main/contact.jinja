@@ -1,135 +1,127 @@
-{% extends "main/base.jinja" %}
+{% extends "base.jinja" %}
 
 {% block content %}
-
-<!-- PAGE HEADER -->
-<section style="padding-top:72px; background:var(--canvas-2); border-bottom:1px solid var(--rule);">
-    <div class="wrap" style="padding:5rem 2.5rem 4rem;">
-        <div style="display:grid; grid-template-columns:1fr 1fr; gap:5rem; align-items:end;" class="cnt-header-grid">
-            <div>
-                <div class="label" style="margin-bottom:1.25rem;">İletişim</div>
-                <h1 class="display" style="font-size:clamp(2.5rem,5vw,4.5rem); font-weight:900; line-height:1.04; white-space:pre-line;">
-                    {{ site.contact_title }}
-                </h1>
-            </div>
-            <div>
-                <div class="h-rule" style="margin-bottom:1.5rem;"></div>
-                <p style="font-size:.95rem; color:var(--ink-2); line-height:1.85;">Teknik danışmanlık, proje değerlendirmesi veya ücretsiz keşif görüşmesi için doğrudan bize ulaşın. Her talep özenle incelenir.</p>
-            </div>
+<section class="section section-top">
+    <div class="shell contact-grid" style="align-items:end;">
+        <div>
+            <div class="eyebrow">Talep ve İletişim</div>
+            <h1 class="headline">Kayıt olun, talep gönderin ve kurumsal ihtiyaçlarınızı bizimle <em>planlı biçimde</em> ilerletin.</h1>
         </div>
-    </div>
-    <div style="height:2px; background:linear-gradient(90deg,transparent,var(--gold-dk),transparent);"></div>
-</section>
-<style> @media(max-width:768px){ .cnt-header-grid { grid-template-columns:1fr !important; gap:2rem !important; } } </style>
-
-
-<!-- CONTACT CHANNELS -->
-<section class="section-pad">
-    <div class="wrap">
-
-        <div class="label" style="margin-bottom:1.25rem; text-align:center;">Kanallar</div>
-
-        <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--rule); max-width:900px; margin:0 auto 5rem;" class="cnt-cards">
-
-            {% if site.contact_whatsapp_url %}
-            <div class="art-card" style="padding:2.5rem 1.75rem; position:relative; overflow:hidden;">
-                <div style="position:absolute; top:0; left:0; right:0; height:1px; background:linear-gradient(90deg,var(--gold-dk),transparent);"></div>
-                <div style="width:48px; height:48px; border:1px solid var(--rule); display:flex; align-items:center; justify-content:center; margin-bottom:1.75rem;">
-                    <i class="fab fa-whatsapp" style="color:var(--gold); font-size:1.1rem;"></i>
-                </div>
-                <div class="label" style="margin-bottom:.75rem;">WhatsApp</div>
-                <p style="font-size:.85rem; color:var(--ink-3); line-height:1.7; margin-bottom:1.5rem;">Anında yanıt ve hızlı teknik ön-görüşme için ideal kanal.</p>
-                <a href="{{ site.contact_whatsapp_url }}" target="_blank" rel="noopener" class="btn-gold" style="font-size:.78rem; padding:.65rem 1.4rem; display:inline-flex; align-items:center; gap:.5rem;">
-                    <i class="fab fa-whatsapp"></i> Yaz
-                </a>
-            </div>
-            {% endif %}
-
-            {% if site.contact_email %}
-            <div class="art-card" style="padding:2.5rem 1.75rem; position:relative; overflow:hidden;">
-                <div style="position:absolute; top:0; left:0; right:0; height:1px; background:linear-gradient(90deg,var(--gold-dk),transparent);"></div>
-                <div style="width:48px; height:48px; border:1px solid var(--rule); display:flex; align-items:center; justify-content:center; margin-bottom:1.75rem;">
-                    <i class="fa-solid fa-envelope" style="color:var(--gold); font-size:1rem;"></i>
-                </div>
-                <div class="label" style="margin-bottom:.75rem;">E-Posta</div>
-                <p style="font-size:.85rem; color:var(--ink-3); line-height:1.7; margin-bottom:1.5rem;">Detaylı teknik talep ve teklif için profesyonel e-posta iletişimi.</p>
-                <a href="mailto:{{ site.contact_email }}" class="btn-gold" style="font-size:.78rem; padding:.65rem 1.4rem; display:inline-flex; align-items:center; gap:.5rem;">
-                    <i class="fa-solid fa-envelope"></i> Gönder
-                </a>
-            </div>
-            {% endif %}
-
-            {% if site.contact_linkedin_url %}
-            <div class="art-card" style="padding:2.5rem 1.75rem; position:relative; overflow:hidden;">
-                <div style="position:absolute; top:0; left:0; right:0; height:1px; background:linear-gradient(90deg,var(--gold-dk),transparent);"></div>
-                <div style="width:48px; height:48px; border:1px solid var(--rule); display:flex; align-items:center; justify-content:center; margin-bottom:1.75rem;">
-                    <i class="fab fa-linkedin-in" style="color:var(--gold); font-size:1rem;"></i>
-                </div>
-                <div class="label" style="margin-bottom:.75rem;">LinkedIn</div>
-                <p style="font-size:.85rem; color:var(--ink-3); line-height:1.7; margin-bottom:1.5rem;">Profesyonel profil ve iş ağı bağlantısı için LinkedIn üzerinden ulaşın.</p>
-                <a href="{{ site.contact_linkedin_url }}" target="_blank" rel="noopener" class="btn-gold" style="font-size:.78rem; padding:.65rem 1.4rem; display:inline-flex; align-items:center; gap:.5rem;">
-                    <i class="fab fa-linkedin-in"></i> Bağlan
-                </a>
-            </div>
-            {% endif %}
-
-        </div>
-
-        <style> @media(max-width:768px){ .cnt-cards { grid-template-columns:1fr !important; margin-bottom:3rem !important; } } </style>
-
-
-        <!-- CONTACT CTA PANEL -->
-        <div class="cta-box" style="position:relative; border:1px solid var(--rule); padding:4rem 3rem; text-align:center; overflow:hidden;">
-            <div style="position:absolute; top:0; left:0; right:0; height:2px; background:linear-gradient(90deg, transparent, var(--gold), transparent);"></div>
-
-            <!-- Watermark -->
-            <div aria-hidden="true" style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); font-family:'Playfair Display',serif; font-size:12rem; font-weight:900; color:var(--ink); opacity:.025; white-space:nowrap; pointer-events:none; user-select:none; line-height:1;">
-                TS
-            </div>
-
-            <div class="label" style="margin-bottom:1rem; position:relative; z-index:1;">Hızlı İletişim</div>
-            <h2 class="display fade-up" style="font-size:clamp(1.8rem,3.5vw,2.8rem); font-weight:700; position:relative; z-index:1; margin-bottom:1rem;">
-                Projenizi Detaylı <em style="color:var(--gold); font-style:italic;">Görelim</em>
-            </h2>
-            <p style="font-size:.95rem; color:var(--ink-2); line-height:1.85; max-width:450px; margin:0 auto 2.5rem; position:relative; z-index:1;">
-                Teknik detayları ifade edemeden bile yazabilirsiniz. Gereksinimi birlikte anlamlandırırız.
-            </p>
-            <button class="btn-gold" data-modal-open="contact-modal" style="position:relative; z-index:1; cursor:pointer;">
-                <i class="fa-solid fa-paper-plane" style="margin-right:.6rem;"></i>Mesaj Gönder
-            </button>
-        </div>
-
+        <p class="lead" style="margin:0;">Bu form; portal, dosya paylaşımı, takip sistemi, kurumsal web veya entegrasyon ihtiyacınızı kapsamlı şekilde iletmeniz için hazırlandı.</p>
     </div>
 </section>
 
+<section class="section-tight">
+    <div class="shell contact-grid">
+        <div class="form-shell" style="padding:34px;">
+            <div class="eyebrow">Talep Formu</div>
+            <h2 class="section-title">Projeyi kısa değil, doğru anlatın.</h2>
+            <p class="lead" style="margin-top:14px;">Portal erişimi, dosya paylaşımı ve takip ihtiyacınız varsa formda mutlaka belirtin.</p>
 
-<!-- INFO STRIP -->
-<section class="section-pad-sm bg-alt">
-    <div class="wrap">
-        <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:var(--rule);" class="info-strip">
-            <div style="background:var(--canvas-2); padding:2rem 1.5rem; text-align:center;">
-                <i class="fa-solid fa-clock" style="color:var(--gold); font-size:1.4rem; margin-bottom:1rem; display:block;"></i>
-                <div class="display" style="font-size:1rem; font-weight:700; margin-bottom:.4rem;">24 Saat</div>
-                <div style="font-size:.78rem; color:var(--ink-3);">Yanıt Süresi</div>
-            </div>
-            <div style="background:var(--canvas-2); padding:2rem 1.5rem; text-align:center; border-left:1px solid var(--rule);">
-                <i class="fa-solid fa-shield-halved" style="color:var(--gold); font-size:1.4rem; margin-bottom:1rem; display:block;"></i>
-                <div class="display" style="font-size:1rem; font-weight:700; margin-bottom:.4rem;">%100</div>
-                <div style="font-size:.78rem; color:var(--ink-3);">NDA Güvencesi</div>
-            </div>
-            <div style="background:var(--canvas-2); padding:2rem 1.5rem; text-align:center; border-left:1px solid var(--rule);">
-                <i class="fa-solid fa-magnifying-glass-chart" style="color:var(--gold); font-size:1.4rem; margin-bottom:1rem; display:block;"></i>
-                <div class="display" style="font-size:1rem; font-weight:700; margin-bottom:.4rem;">Ücretsiz</div>
-                <div style="font-size:.78rem; color:var(--ink-3);">Teknik Analiz</div>
-            </div>
-            <div style="background:var(--canvas-2); padding:2rem 1.5rem; text-align:center; border-left:1px solid var(--rule);">
-                <i class="fa-solid fa-location-dot" style="color:var(--gold); font-size:1.4rem; margin-bottom:1rem; display:block;"></i>
-                <div class="display" style="font-size:1rem; font-weight:700; margin-bottom:.4rem;">Türkiye</div>
-                <div style="font-size:.78rem; color:var(--ink-3);">& Uzaktan</div>
-            </div>
+            {% if request_errors %}
+            <div class="alert error" style="margin-top:20px;">Formda eksik veya hatalı alanlar var. Lütfen alanları kontrol edin.</div>
+            {% endif %}
+
+            <form method="post" style="display:grid; gap:18px; margin-top:22px;">
+                {{ csrf_input }}
+                <div class="grid-2">
+                    <div>
+                        <label for="full_name">Ad Soyad</label>
+                        <input id="full_name" name="full_name" type="text" value="{{ request_values.full_name }}">
+                        {% if 'full_name' in request_errors %}<div class="field-error">{{ request_errors['full_name'][0] }}</div>{% endif %}
+                    </div>
+                    <div>
+                        <label for="email">E-posta</label>
+                        <input id="email" name="email" type="email" value="{{ request_values.email }}">
+                        {% if 'email' in request_errors %}<div class="field-error">{{ request_errors['email'][0] }}</div>{% endif %}
+                    </div>
+                </div>
+
+                <div class="grid-2">
+                    <div>
+                        <label for="company_name">Şirket</label>
+                        <input id="company_name" name="company_name" type="text" value="{{ request_values.company_name }}">
+                    </div>
+                    <div>
+                        <label for="phone">Telefon</label>
+                        <input id="phone" name="phone" type="text" value="{{ request_values.phone }}">
+                    </div>
+                </div>
+
+                <div class="grid-3">
+                    <div>
+                        <label for="request_type">Talep Türü</label>
+                        <select id="request_type" name="request_type">
+                            <option value="">Seçin</option>
+                            {% for value, label in request_type_choices %}
+                            <option value="{{ value }}" {% if request_values.request_type == value %}selected{% endif %}>{{ label }}</option>
+                            {% endfor %}
+                        </select>
+                        {% if 'request_type' in request_errors %}<div class="field-error">{{ request_errors['request_type'][0] }}</div>{% endif %}
+                    </div>
+                    <div>
+                        <label for="budget_range">Bütçe</label>
+                        <select id="budget_range" name="budget_range">
+                            <option value="">Seçin</option>
+                            {% for value, label in budget_choices %}
+                            <option value="{{ value }}" {% if request_values.budget_range == value %}selected{% endif %}>{{ label }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div>
+                        <label for="timeline">Zaman Planı</label>
+                        <select id="timeline" name="timeline">
+                            <option value="">Seçin</option>
+                            {% for value, label in timeline_choices %}
+                            <option value="{{ value }}" {% if request_values.timeline == value %}selected{% endif %}>{{ label }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+
+                <div>
+                    <label for="project_scope">Proje Kapsamı</label>
+                    <textarea id="project_scope" name="project_scope" rows="6">{{ request_values.project_scope }}</textarea>
+                    {% if 'project_scope' in request_errors %}<div class="field-error">{{ request_errors['project_scope'][0] }}</div>{% endif %}
+                </div>
+
+                <div>
+                    <label for="systems_note">Sistem ve Operasyon Notu</label>
+                    <textarea id="systems_note" name="systems_note" rows="4">{{ request_values.systems_note }}</textarea>
+                </div>
+
+                <label class="checkbox-row">
+                    <input type="checkbox" name="wants_portal_access" value="on" {% if request_values.wants_portal_access %}checked{% endif %}>
+                    <span>Müşterilerimize özel portal erişimi ve takip altyapısı istiyorum.</span>
+                </label>
+
+                <button type="submit" class="btn-primary">Talebi Gönder</button>
+            </form>
         </div>
-        <style> @media(max-width:768px){ .info-strip { grid-template-columns:1fr 1fr !important; } .info-strip > div { border-left:none !important; border-top:1px solid var(--rule); } } </style>
+
+        <div style="display:grid; gap:18px;">
+            <article class="card">
+                <div class="eyebrow">Çalışma Akışı</div>
+                <ol class="clean-list" style="display:grid; gap:14px; margin-top:18px;">
+                    <li class="kicker"><span class="gold">1.</span> Talebiniz teknik açıdan incelenir.</li>
+                    <li class="kicker"><span class="gold">2.</span> Gerekli ekranlar, portal ihtiyacı ve süreç boşlukları analiz edilir.</li>
+                    <li class="kicker"><span class="gold">3.</span> Size kapsam, zaman ve uygun sistem önerisi ile dönüş yapılır.</li>
+                </ol>
+            </article>
+            <article class="card">
+                <div class="eyebrow">Hızlı Kanallar</div>
+                <div style="display:grid; gap:14px; margin-top:18px;">
+                    {% if site.contact_email %}<a href="mailto:{{ site.contact_email }}" class="btn-secondary">{{ site.contact_email }}</a>{% endif %}
+                    {% if site.contact_whatsapp_url %}<a href="{{ site.contact_whatsapp_url }}" target="_blank" rel="noopener" class="btn-secondary">WhatsApp</a>{% endif %}
+                    <a href="{{ portal_url }}" target="_blank" rel="noopener" class="btn-secondary">Portal</a>
+                </div>
+            </article>
+            <article class="card">
+                <div class="eyebrow">Kayıt Avantajı</div>
+                <p class="lead" style="font-size:.95rem; margin-top:16px;">Hesap oluşturan kullanıcılar ileride taleplerini ve sistem siparişlerini kendi panelinden takip edebilir.</p>
+                <a href="{{ url('account_auth') }}" class="btn-link" style="margin-top:18px;">Kayıt / Giriş sayfası <i class="fa-solid fa-arrow-right"></i></a>
+            </article>
+        </div>
     </div>
 </section>
-
 {% endblock %}

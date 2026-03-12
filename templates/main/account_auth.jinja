@@ -1,0 +1,78 @@
+{% extends "base.jinja" %}
+
+{% block content %}
+<section class="section section-top">
+    <div class="shell auth-grid">
+        <article class="form-shell" style="padding:34px;">
+            <div class="eyebrow">Giriş</div>
+            <h1 class="section-title">Hesabınıza erişin.</h1>
+            <p class="lead" style="margin-top:14px;">Talep ve sistem süreçlerinizi panelinizden takip etmek için giriş yapın.</p>
+
+            {% if sign_in_errors.get('__all__') %}
+            <div class="alert error" style="margin-top:20px;">{{ sign_in_errors['__all__'][0] }}</div>
+            {% endif %}
+
+            <form method="post" style="display:grid; gap:18px; margin-top:22px;">
+                {{ csrf_input }}
+                <input type="hidden" name="action" value="signin">
+                <div>
+                    <label for="signin_username">Kullanıcı Adı</label>
+                    <input id="signin_username" type="text" name="username" value="{{ sign_in_values.username }}">
+                    {% if 'username' in sign_in_errors %}<div class="field-error">{{ sign_in_errors['username'][0] }}</div>{% endif %}
+                </div>
+                <div>
+                    <label for="signin_password">Şifre</label>
+                    <input id="signin_password" type="password" name="password">
+                    {% if 'password' in sign_in_errors %}<div class="field-error">{{ sign_in_errors['password'][0] }}</div>{% endif %}
+                </div>
+                <button type="submit" class="btn-primary">Giriş Yap</button>
+            </form>
+        </article>
+
+        <article class="form-shell" style="padding:34px; border-color:{% if active_tab == 'signup' %}rgba(222,187,114,.35){% else %}var(--rule){% endif %};">
+            <div class="eyebrow">Kayıt Ol</div>
+            <h2 class="section-title">Yeni hesap oluşturun.</h2>
+            <p class="lead" style="margin-top:14px;">Hesabınız ile talep bırakabilir ve ileride süreçlerinizi tek panelden izleyebilirsiniz.</p>
+
+            {% if sign_up_errors.get('__all__') %}
+            <div class="alert error" style="margin-top:20px;">{{ sign_up_errors['__all__'][0] }}</div>
+            {% endif %}
+
+            <form method="post" style="display:grid; gap:18px; margin-top:22px;">
+                {{ csrf_input }}
+                <input type="hidden" name="action" value="signup">
+                <div>
+                    <label for="signup_full_name">Ad Soyad</label>
+                    <input id="signup_full_name" type="text" name="full_name" value="{{ sign_up_values.full_name }}">
+                    {% if 'full_name' in sign_up_errors %}<div class="field-error">{{ sign_up_errors['full_name'][0] }}</div>{% endif %}
+                </div>
+                <div class="grid-2">
+                    <div>
+                        <label for="signup_username">Kullanıcı Adı</label>
+                        <input id="signup_username" type="text" name="username" value="{{ sign_up_values.username }}">
+                        {% if 'username' in sign_up_errors %}<div class="field-error">{{ sign_up_errors['username'][0] }}</div>{% endif %}
+                    </div>
+                    <div>
+                        <label for="signup_email">E-posta</label>
+                        <input id="signup_email" type="email" name="email" value="{{ sign_up_values.email }}">
+                        {% if 'email' in sign_up_errors %}<div class="field-error">{{ sign_up_errors['email'][0] }}</div>{% endif %}
+                    </div>
+                </div>
+                <div class="grid-2">
+                    <div>
+                        <label for="signup_password1">Şifre</label>
+                        <input id="signup_password1" type="password" name="password1">
+                        {% if 'password1' in sign_up_errors %}<div class="field-error">{{ sign_up_errors['password1'][0] }}</div>{% endif %}
+                    </div>
+                    <div>
+                        <label for="signup_password2">Şifre Tekrar</label>
+                        <input id="signup_password2" type="password" name="password2">
+                        {% if 'password2' in sign_up_errors %}<div class="field-error">{{ sign_up_errors['password2'][0] }}</div>{% endif %}
+                    </div>
+                </div>
+                <button type="submit" class="btn-primary">Hesap Oluştur</button>
+            </form>
+        </article>
+    </div>
+</section>
+{% endblock %}

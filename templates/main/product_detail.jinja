@@ -1,182 +1,142 @@
-{% extends "main/base.jinja" %}
+{% extends "base.jinja" %}
 
 {% block content %}
-
-<section style="padding-top:72px; background:var(--canvas-2); border-bottom:1px solid var(--rule);">
-    <div class="wrap" style="padding:5rem 2.5rem 4rem;">
-        <div style="display:grid; grid-template-columns:1fr 1fr; gap:5rem; align-items:end;" class="det-grid">
-            <div>
-                <div class="label" style="margin-bottom:1.25rem;">Ürün Detayı</div>
-                <h1 class="display" style="font-size:clamp(2.2rem,4.8vw,4rem); font-weight:900; line-height:1.05;">{{ product.name }}</h1>
-            </div>
-            <div>
-                <div class="h-rule" style="margin-bottom:1.5rem;"></div>
-                <p style="font-size:.95rem; color:var(--ink-2); line-height:1.85;">{{ product.short_description }}</p>
-            </div>
-        </div>
-    </div>
-    <div style="height:2px; background:linear-gradient(90deg,transparent,var(--gold-dk),transparent);"></div>
-</section>
-
-<section class="section-pad">
-    <div class="wrap">
-        <div style="margin-bottom:3rem;">
-            <div class="label" style="margin-bottom:1rem;">Paketler</div>
-            <h2 class="display" style="font-size:clamp(1.8rem,3.5vw,3rem); font-weight:700;">Her Bütçeye Uygun <em style="color:var(--gold); font-style:italic;">Seçenekler</em></h2>
-        </div>
-
-        <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--rule);" class="pkg-grid">
-            {% for pkg in packages %}
-            <div style="background:var(--canvas-2); padding:2.5rem 2rem; position:relative; {% if pkg.is_highlighted %}border-top:2px solid var(--gold);{% endif %}">
-                <div class="label" style="margin-bottom:1rem; {% if pkg.is_highlighted %}color:var(--gold-lt);{% endif %}">{{ pkg.name }}</div>
-                <div class="display" style="font-size:2.2rem; font-weight:900; color:var(--ink); margin-bottom:.5rem; line-height:1;">{{ pkg.price }}</div>
-                <p style="font-size:.85rem; color:var(--ink-3); line-height:1.7; margin-bottom:1.25rem;">{{ pkg.description }}</p>
-                <div class="h-rule" style="margin-bottom:1.25rem;"></div>
-                <ul style="list-style:none; padding:0; display:flex; flex-direction:column; gap:.65rem;">
-                    {% for feature in pkg.get_features_list() %}
-                    <li style="font-size:.82rem; color:var(--ink-2); display:flex; gap:.75rem;">
-                        <span style="color:var(--gold); font-size:.5rem; margin-top:.35rem; flex-shrink:0;">◆</span> {{ feature }}
-                    </li>
-                    {% endfor %}
-                </ul>
-                {% if pkg.ask_details_on_order %}
-                <div style="margin-top:1.25rem; font-size:.75rem; color:var(--gold-lt);">Siparişte detay belirtme alanı aktif</div>
-                {% endif %}
-            </div>
-            {% endfor %}
-        </div>
-    </div>
-    <style> @media(max-width:900px){ .pkg-grid { grid-template-columns:1fr !important; } } </style>
-</section>
-
-<section class="section-pad bg-alt">
-    <div class="wrap">
-        <div style="margin-bottom:2.5rem;">
-            <div class="label" style="margin-bottom:1rem;">Aşırı Detaylı Özellikler</div>
-            <h2 class="display" style="font-size:clamp(1.8rem,3.5vw,3rem); font-weight:700;">Teknik Kapsam <em style="color:var(--gold); font-style:italic;">Listesi</em></h2>
-        </div>
-        <div style="border:1px solid var(--rule); background:var(--canvas-2); padding:2rem;">
-            <ul style="list-style:none; padding:0; margin:0; display:grid; grid-template-columns:1fr 1fr; gap:1rem 2rem;" class="features-grid">
-                {% for item in product.get_detailed_features_list() %}
-                <li style="font-size:.85rem; color:var(--ink-2); display:flex; gap:.75rem;">
-                    <span style="color:var(--gold); font-size:.5rem; margin-top:.45rem; flex-shrink:0;">◆</span> {{ item }}
-                </li>
+<section class="section section-top">
+    <div class="shell detail-layout">
+        <div>
+            <a href="{{ url('products') }}" class="btn-link"><i class="fa-solid fa-arrow-left"></i> Ürünlere dön</a>
+            <div class="eyebrow" style="margin-top:24px;">Ürün Detayı</div>
+            <h1 class="headline">{{ product.name }}</h1>
+            <p class="lead" style="margin-top:20px;">{{ product.short_description }}</p>
+            <ul class="clean-list" style="display:grid; gap:10px; margin-top:24px;">
+                {% for feature in product.get_detailed_features_list() %}
+                <li class="kicker"><i class="fa-solid fa-check gold"></i> {{ feature }}</li>
                 {% endfor %}
             </ul>
         </div>
+
+        <aside class="card" style="position:sticky; top:110px;">
+            <div class="eyebrow">Hızlı Aksiyon</div>
+            <p class="lead" style="font-size:.95rem; margin-top:16px;">Bu ürün için paket ve kapsam talebinizi bırakın. Gerekirse satış modelini veya teknik kapsamı sizin için netleştirelim.</p>
+            <div class="btn-row" style="margin-top:18px;">
+                <a href="{{ portal_url }}" target="_blank" rel="noopener" class="btn-secondary">Portal</a>
+                <a href="{{ url('contact') }}" class="btn-primary">Genel Talep Formu</a>
+            </div>
+        </aside>
     </div>
-    <style> @media(max-width:900px){ .features-grid { grid-template-columns:1fr !important; } } </style>
 </section>
 
-<section class="section-pad">
-    <div class="wrap">
-        <div style="display:grid; grid-template-columns:1fr 1fr; gap:4rem;" class="faq-grid">
-            <div>
-                <div class="label" style="margin-bottom:1rem;">Yorumlar</div>
-                <h2 class="display" style="font-size:clamp(1.8rem,3.3vw,2.6rem); font-weight:700; margin-bottom:1.75rem;">Müşteri <em style="color:var(--gold); font-style:italic;">Geri Bildirimleri</em></h2>
-                <div style="display:flex; flex-direction:column; gap:1rem;">
-                    {% for review in reviews %}
-                    <div style="border:1px solid var(--rule); background:var(--canvas-2); padding:1.4rem;">
-                        <p style="font-size:.85rem; color:var(--ink-2); line-height:1.8; margin-bottom:1rem;">“{{ review.comment }}”</p>
-                        <div class="caption" style="font-size:.65rem;">{{ review.full_name }}{% if review.role %} · {{ review.role }}{% endif %}</div>
-                    </div>
-                    {% endfor %}
-                </div>
-            </div>
+<section class="section-tight">
+    <div class="shell grid-3">
+        {% for package in packages %}
+        <article class="card" style="{% if package.is_highlighted %}border-color: rgba(222,187,114,.4);{% endif %}">
+            <div class="eyebrow">{{ package.name }}</div>
+            <h2 class="subheadline" style="font-size:1.6rem; margin-top:16px;">{{ package.price }}</h2>
+            <p class="lead" style="font-size:.95rem; margin-top:14px;">{{ package.description }}</p>
+            <ul class="clean-list" style="display:grid; gap:10px; margin-top:18px;">
+                {% for feature in package.get_features_list() %}
+                <li class="kicker"><i class="fa-solid fa-check gold"></i> {{ feature }}</li>
+                {% endfor %}
+            </ul>
+        </article>
+        {% endfor %}
+    </div>
+</section>
 
-            <div>
-                <div class="label" style="margin-bottom:1rem;">Soru Cevap</div>
-                <h2 class="display" style="font-size:clamp(1.8rem,3.3vw,2.6rem); font-weight:700; margin-bottom:1.75rem;">Sık Sorulan <em style="color:var(--gold); font-style:italic;">Sorular</em></h2>
-                <div style="display:flex; flex-direction:column; gap:1rem;">
-                    {% for faq in faqs %}
-                    <div style="border:1px solid var(--rule); background:var(--canvas-2); padding:1.4rem;">
-                        <h3 class="display" style="font-size:1rem; font-weight:700; margin-bottom:.6rem;">{{ faq.question }}</h3>
-                        <p style="font-size:.84rem; color:var(--ink-3); line-height:1.8;">{{ faq.answer }}</p>
+<section class="section-tight">
+    <div class="shell two-col">
+        <div>
+            <div class="eyebrow">Müşteri Geri Bildirimi</div>
+            <div style="display:grid; gap:18px; margin-top:18px;">
+                {% for review in reviews %}
+                <article class="card">
+                    <p class="lead" style="font-size:1rem; margin:0;">“{{ review.comment }}”</p>
+                    <div style="margin-top:18px;">
+                        <strong>{{ review.full_name }}</strong>
+                        <div class="kicker">{{ review.role }}</div>
                     </div>
-                    {% endfor %}
-                </div>
+                </article>
+                {% endfor %}
+            </div>
+        </div>
+        <div>
+            <div class="eyebrow">Sık Sorulanlar</div>
+            <div style="display:grid; gap:18px; margin-top:18px;">
+                {% for faq in faqs %}
+                <article class="card">
+                    <strong>{{ faq.question }}</strong>
+                    <p class="lead" style="font-size:.95rem; margin-top:12px;">{{ faq.answer }}</p>
+                </article>
+                {% endfor %}
             </div>
         </div>
     </div>
-    <style> @media(max-width:900px){ .faq-grid { grid-template-columns:1fr !important; } } </style>
 </section>
 
-<section class="section-pad bg-alt">
-    <div class="wrap" style="max-width:900px;">
-        <div class="label" style="margin-bottom:1rem;">Sipariş Ver</div>
-        <h2 class="display" style="font-size:clamp(1.8rem,3.2vw,2.8rem); font-weight:700; margin-bottom:1rem;">Paket Seçimi ve <em style="color:var(--gold); font-style:italic;">Talep Formu</em></h2>
-
-        {% if order_success %}
-        <div style="margin-bottom:1rem; border:1px solid var(--gold-dk); background:rgba(192,154,69,.08); padding:1rem; font-size:.85rem; color:var(--ink);">
-            Sipariş talebiniz alındı. En kısa sürede sizinle iletişime geçeceğiz.
-        </div>
-        {% endif %}
+<section class="section">
+    <div class="shell form-shell" style="padding:34px; max-width:960px;">
+        <div class="eyebrow">Paket Talebi</div>
+        <h2 class="section-title">Bu ürün için paket ve kapsam talebinizi bırakın.</h2>
+        <p class="lead" style="margin-top:14px;">Paket seçiminizle birlikte özel notlarınızı ve beklentinizi iletebilirsiniz.</p>
 
         {% if order_error %}
-        <div style="margin-bottom:1rem; border:1px solid var(--rule); background:rgba(192,154,69,.08); padding:1rem; font-size:.85rem; color:var(--ink);">
-            {{ order_error }}
-        </div>
+        <div class="alert error" style="margin-top:20px;">{{ order_error }}</div>
         {% endif %}
 
-        <form method="post" style="border:1px solid var(--rule); background:var(--canvas-2); padding:2rem;">
+        <form method="post" style="margin-top:22px; display:grid; gap:18px;">
             {{ csrf_input }}
-            <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin-bottom:1rem;" class="cnt-cards">
+            <div class="grid-2">
                 <div>
-                    <label class="caption" style="display:block; margin-bottom:.45rem;">Ad Soyad</label>
-                    <input type="text" name="full_name" required style="width:100%; padding:.8rem .9rem; background:var(--canvas); border:1px solid var(--rule); color:var(--ink); font-size:.85rem;">
+                    <label for="full_name">Ad Soyad</label>
+                    <input id="full_name" type="text" name="full_name" value="{{ order_form.full_name }}" required>
                 </div>
                 <div>
-                    <label class="caption" style="display:block; margin-bottom:.45rem;">E-posta</label>
-                    <input type="email" name="email" required style="width:100%; padding:.8rem .9rem; background:var(--canvas); border:1px solid var(--rule); color:var(--ink); font-size:.85rem;">
+                    <label for="email">E-posta</label>
+                    <input id="email" type="email" name="email" value="{{ order_form.email }}" required>
                 </div>
             </div>
-
-            <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin-bottom:1rem;" class="cnt-cards">
+            <div class="grid-2">
                 <div>
-                    <label class="caption" style="display:block; margin-bottom:.45rem;">Telefon</label>
-                    <input type="text" name="phone" style="width:100%; padding:.8rem .9rem; background:var(--canvas); border:1px solid var(--rule); color:var(--ink); font-size:.85rem;">
+                    <label for="phone">Telefon</label>
+                    <input id="phone" type="text" name="phone" value="{{ order_form.phone }}">
                 </div>
                 <div>
-                    <label class="caption" style="display:block; margin-bottom:.45rem;">Paket</label>
-                    <select name="package_id" id="package-select" required style="width:100%; padding:.8rem .9rem; background:var(--canvas); border:1px solid var(--rule); color:var(--ink); font-size:.85rem;">
+                    <label for="package_id">Paket</label>
+                    <select id="package_id" name="package_id" required>
                         <option value="">Paket seçin</option>
-                        {% for pkg in packages %}
-                        <option value="{{ pkg.id }}" data-ask-details="{{ 1 if pkg.ask_details_on_order else 0 }}">{{ pkg.name }} - {{ pkg.price }}</option>
+                        {% for package in packages %}
+                        <option value="{{ package.id }}" data-ask-details="{{ 1 if package.ask_details_on_order else 0 }}" {% if order_form.package_id == (package.id ~ '') %}selected{% endif %}>{{ package.name }} · {{ package.price }}</option>
                         {% endfor %}
                     </select>
                 </div>
             </div>
-
-            <div id="detail-note-wrap" style="display:none; margin-bottom:1rem;">
-                <label class="caption" style="display:block; margin-bottom:.45rem;">Detayları Belirtin</label>
-                <textarea name="detail_note" id="detail-note" rows="5" style="width:100%; padding:.8rem .9rem; background:var(--canvas); border:1px solid var(--rule); color:var(--ink); font-size:.85rem;"></textarea>
+            <div id="detail-note-wrap" style="display:none;">
+                <label for="detail_note">Özel Kapsam Notu</label>
+                <textarea id="detail_note" name="detail_note" rows="5">{{ order_form.detail_note }}</textarea>
             </div>
-
-            <button type="submit" class="btn-gold" style="font-size:.7rem;">Sipariş Talebi Gönder</button>
+            <button type="submit" class="btn-primary">Paket Talebi Gönder</button>
         </form>
     </div>
 </section>
-
 {% endblock %}
 
 {% block extra_scripts %}
 <script>
-    const packageSelect = document.getElementById('package-select');
+    const packageSelect = document.getElementById('package_id');
     const detailWrap = document.getElementById('detail-note-wrap');
-    const detailNote = document.getElementById('detail-note');
+    const detailNote = document.getElementById('detail_note');
 
-    function toggleDetailField() {
+    function syncDetailNoteField() {
         if (!packageSelect) return;
-        const selected = packageSelect.options[packageSelect.selectedIndex];
-        const askDetails = selected?.dataset?.askDetails === '1';
-        detailWrap.style.display = askDetails ? 'block' : 'none';
-        detailNote.required = askDetails;
-        if (!askDetails) {
-            detailNote.value = '';
+        const selectedOption = packageSelect.options[packageSelect.selectedIndex];
+        const needsDetails = selectedOption && selectedOption.dataset.askDetails === '1';
+        detailWrap.style.display = needsDetails ? 'block' : 'none';
+        if (detailNote) {
+            detailNote.required = needsDetails;
         }
     }
 
-    packageSelect?.addEventListener('change', toggleDetailField);
-    toggleDetailField();
+    packageSelect?.addEventListener('change', syncDetailNoteField);
+    syncDetailNoteField();
 </script>
 {% endblock %}

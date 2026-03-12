@@ -1,164 +1,46 @@
-{% extends "main/base.jinja" %}
+{% extends "base.jinja" %}
 
 {% block content %}
-
-<!-- PAGE HEADER -->
-<section style="padding-top:72px; background:var(--canvas-2); border-bottom:1px solid var(--rule);">
-    <div class="wrap" style="padding:5rem 2.5rem 4rem;">
-        <div style="display:grid; grid-template-columns:1fr 1fr; gap:5rem; align-items:end;" class="srv-header-grid">
-            <div>
-                <div class="label" style="margin-bottom:1.25rem;">Hizmetler</div>
-                <h1 class="display" style="font-size:clamp(2.5rem,5vw,4.5rem); font-weight:900; line-height:1.04;">
-                    {{ site.services_title }}
-                </h1>
-            </div>
-            <div>
-                <div class="h-rule" style="margin-bottom:1.5rem;"></div>
-            <p style="font-size:.95rem; color:var(--ink-2); line-height:1.85;">Fikir aşamasından production'a; oyun motorlarından kurumsal ERP sistemlerine kadar geniş bir mühendislik perspektifiyle çözüm üretiyoruz.</p>
-            </div>
-        </div>
+<section class="section section-top">
+    <div class="shell" style="max-width:900px;">
+        <div class="eyebrow">Hizmetler</div>
+        <h1 class="headline" style="margin-bottom:20px;">Sağladığımız <em>hizmetler</em></h1>
+        <p class="lead">Ürün satmıyoruz, hizmet veriyoruz. Analiz, tasarım, geliştirme, entegrasyon ve operasyon desteği.</p>
     </div>
-    <div style="height:2px; background:linear-gradient(90deg,transparent,var(--gold-dk),transparent);"></div>
 </section>
 
-<style> @media(max-width:768px){ .srv-header-grid { grid-template-columns:1fr !important; gap:2rem !important; } } </style>
-
-
-<!-- SERVICE CARDS -->
-<section class="section-pad">
-    <div class="wrap">
-        <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--rule);" class="srv-grid">
-            {% for service in services %}
-            <div class="art-card" style="padding:2.5rem 2rem; position:relative; overflow:hidden;">
-                <div style="position:absolute; top:0; left:0; right:0; height:1px; background:linear-gradient(90deg,var(--gold-dk),transparent);"></div>
-
-                <div class="mono" style="font-size:.65rem; letter-spacing:.22em; color:var(--gold-dk); margin-bottom:1.5rem;">No. 0{{ loop.index }}</div>
-
-                <div style="width:48px; height:48px; border:1px solid var(--rule); display:flex; align-items:center; justify-content:center; margin-bottom:1.75rem;">
-                    <i class="{{ service.icon_class }}" style="color:var(--gold); font-size:1rem;"></i>
+<section class="section-tight">
+    <div class="shell" style="max-width:900px;">
+        {% for service in services %}
+        <div class="row-item">
+            <div class="row-number">{{ '%02d' % loop.index }}</div>
+            <div class="row-body">
+                <h3 class="subheadline" style="font-size:1.35rem;">{{ service.title }}</h3>
+                <p class="lead" style="font-size:.92rem; margin-top:8px;">{{ service.description }}</p>
+                <div style="display:flex; gap:24px; margin-top:14px;">
+                    <span class="kicker"><i class="fa-solid fa-check gold"></i> {{ service.bullet_one }}</span>
+                    <span class="kicker"><i class="fa-solid fa-check gold"></i> {{ service.bullet_two }}</span>
                 </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</section>
 
-                <h3 class="display" style="font-size:1.25rem; font-weight:700; margin-bottom:1rem; line-height:1.3;">{{ service.title }}</h3>
-                <p style="font-size:.87rem; color:var(--ink-2); line-height:1.8; margin-bottom:1.5rem;">{{ service.description }}</p>
-
-                <div class="h-rule" style="margin-bottom:1.25rem;"></div>
-                <ul style="list-style:none; padding:0; display:flex; flex-direction:column; gap:.65rem;">
-                    <li style="font-size:.82rem; color:var(--ink-3); display:flex; gap:.75rem;">
-                        <span style="color:var(--gold); font-size:.5rem; margin-top:.35rem; flex-shrink:0;">◆</span> {{ service.bullet_one }}
-                    </li>
-                    <li style="font-size:.82rem; color:var(--ink-3); display:flex; gap:.75rem;">
-                        <span style="color:var(--gold); font-size:.5rem; margin-top:.35rem; flex-shrink:0;">◆</span> {{ service.bullet_two }}
-                    </li>
-                </ul>
+<section class="section">
+    <div class="shell" style="max-width:900px;">
+        <div class="eyebrow">Çalışma Modeli</div>
+        <h2 class="section-title" style="margin-bottom:28px;">Hizmeti teslim ederken <em>süreç netliği</em> de kuruyoruz.</h2>
+        <div style="display:grid; gap:0;">
+            {% for step in delivery_layers %}
+            <div class="row-item" style="grid-template-columns:32px 1fr;">
+                <div class="row-number">{{ '%02d' % loop.index }}</div>
+                <div class="row-body">
+                    <p class="lead" style="font-size:.95rem;">{{ step }}</p>
+                </div>
             </div>
             {% endfor %}
         </div>
     </div>
-    <style> @media(max-width:900px){ .srv-grid { grid-template-columns:1fr !important; } } </style>
 </section>
-
-
-<!-- TECHNICAL EXPERTISE -->
-<section class="section-pad bg-alt">
-    <div class="wrap">
-
-        <div style="margin-bottom:4rem;">
-            <div class="label" style="margin-bottom:1rem;">Teknik Yetkinlikler</div>
-            <h2 class="display fade-up" style="font-size:clamp(1.8rem,3.5vw,3rem); font-weight:700;">
-                Mühendislik Odaklı <em style="color:var(--gold); font-style:italic;">Üretim</em>
-            </h2>
-            <p style="margin-top:1rem; max-width:500px; font-size:.9rem; color:var(--ink-2); line-height:1.8;">Sadece arayüz değil; güvenle çalışan algoritmalar, veri mimarileri ve sürdürülebilir yazılım ekosistemleri inşa ediyoruz.</p>
-        </div>
-
-        <div class="stagger" style="display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--rule);" class="exp-grid">
-
-            <div style="background:var(--canvas-2); padding:2.5rem 2rem;">
-                <div class="label" style="color:var(--gold-lt); margin-bottom:1rem;">MİMARİ & BACKEND</div>
-                <h3 class="display" style="font-size:1.2rem; font-weight:700; margin-bottom:1rem;">Yüksek Ölçekli SaaS</h3>
-                <p style="font-size:.87rem; color:var(--ink-3); line-height:1.8; margin-bottom:1.5rem;">Binlerce eş zamanlı isteği karşılayabilen, mikroservis mimarisine uygun, yatay ölçeklenebilir backend altyapıları.</p>
-                <ul style="list-style:none; padding:0; display:flex; flex-direction:column; gap:.6rem;">
-                    <li style="font-size:.82rem; color:var(--ink-3); display:flex; gap:.75rem;"><span style="color:var(--gold); font-size:.5rem; margin-top:.35rem; flex-shrink:0;">◆</span>Multi-tenant veritabanı (SQL/NoSQL)</li>
-                    <li style="font-size:.82rem; color:var(--ink-3); display:flex; gap:.75rem;"><span style="color:var(--gold); font-size:.5rem; margin-top:.35rem; flex-shrink:0;">◆</span>REST & GraphQL API servisleri</li>
-                    <li style="font-size:.82rem; color:var(--ink-3); display:flex; gap:.75rem;"><span style="color:var(--gold); font-size:.5rem; margin-top:.35rem; flex-shrink:0;">◆</span>CI/CD ve Container (Docker/K8s)</li>
-                </ul>
-            </div>
-
-            <div style="background:var(--canvas-2); padding:2.5rem 2rem; border-left:1px solid var(--rule);">
-                <div class="label" style="color:var(--gold-lt); margin-bottom:1rem;">WEB & MOBİL</div>
-                <h3 class="display" style="font-size:1.2rem; font-weight:700; margin-bottom:1rem;">Cross-Platform Çözümler</h3>
-                <p style="font-size:.87rem; color:var(--ink-3); line-height:1.8; margin-bottom:1.5rem;">Native performansında çalışan, Core Web Vitals'a optimize edilmiş modern frontend mimarileri.</p>
-                <ul style="list-style:none; padding:0; display:flex; flex-direction:column; gap:.6rem;">
-                    <li style="font-size:.82rem; color:var(--ink-3); display:flex; gap:.75rem;"><span style="color:var(--gold); font-size:.5rem; margin-top:.35rem; flex-shrink:0;">◆</span>React, Next.js ve Vue mimarileri</li>
-                    <li style="font-size:.82rem; color:var(--ink-3); display:flex; gap:.75rem;"><span style="color:var(--gold); font-size:.5rem; margin-top:.35rem; flex-shrink:0;">◆</span>Flutter & React Native</li>
-                    <li style="font-size:.82rem; color:var(--ink-3); display:flex; gap:.75rem;"><span style="color:var(--gold); font-size:.5rem; margin-top:.35rem; flex-shrink:0;">◆</span>PWA ve Offline-first prensibi</li>
-                </ul>
-            </div>
-
-            <div style="background:var(--canvas-2); padding:2.5rem 2rem; border-left:1px solid var(--rule);">
-                <div class="label" style="color:var(--gold-lt); margin-bottom:1rem;">OYUN TEKNOLOJİLERİ</div>
-                <h3 class="display" style="font-size:1.2rem; font-weight:700; margin-bottom:1rem;">Simülasyon & Etkileşim</h3>
-                <p style="font-size:.87rem; color:var(--ink-3); line-height:1.8; margin-bottom:1.5rem;">Fizik motorları, 3D grafik işleme ve multiplayer ağ yapıları üzerine derin mühendislik.</p>
-                <ul style="list-style:none; padding:0; display:flex; flex-direction:column; gap:.6rem;">
-                    <li style="font-size:.82rem; color:var(--ink-3); display:flex; gap:.75rem;"><span style="color:var(--gold); font-size:.5rem; margin-top:.35rem; flex-shrink:0;">◆</span>Unity & Unreal Engine uzmanlığı</li>
-                    <li style="font-size:.82rem; color:var(--ink-3); display:flex; gap:.75rem;"><span style="color:var(--gold); font-size:.5rem; margin-top:.35rem; flex-shrink:0;">◆</span>Düşük gecikmeli ağ (Low-latency)</li>
-                    <li style="font-size:.82rem; color:var(--ink-3); display:flex; gap:.75rem;"><span style="color:var(--gold); font-size:.5rem; margin-top:.35rem; flex-shrink:0;">◆</span>Shader & Grafik optimizasyonu</li>
-                </ul>
-            </div>
-
-        </div>
-    </div>
-    <style> @media(max-width:900px){ .exp-grid { grid-template-columns:1fr !important; } .exp-grid > div { border-left:none !important; border-top:1px solid var(--rule); } } </style>
-</section>
-
-
-<!-- FAQ -->
-<section class="section-pad bg-alt">
-    <div class="wrap">
-        <div style="display:grid; grid-template-columns:1fr 1fr; gap:5rem; align-items:start;" class="faq-grid">
-
-            <div class="fade-up">
-                <div class="label" style="margin-bottom:1.25rem;">Proje Tipolojileri</div>
-                <h2 class="display" style="font-size:clamp(1.8rem,3.5vw,3rem); font-weight:700; margin-bottom:1.5rem; line-height:1.2;">
-                    Hangi Sorunları<br><em style="color:var(--gold); font-style:italic;">Çözüyoruz?</em>
-                </h2>
-                <p style="font-size:.9rem; color:var(--ink-2); line-height:1.85; margin-bottom:2rem;">Teknik borç yaratan geçici çözümler yerine, büyüyen işletmeniz için uzun vadeli altyapılar sunuyoruz.</p>
-                <div style="display:flex; flex-direction:column; gap:1.1rem;">
-                    <div style="display:flex; gap:1rem; align-items:flex-start; font-size:.88rem; color:var(--ink-2);">
-                        <i class="fa-solid fa-bolt" style="color:var(--gold); margin-top:.25rem; flex-shrink:0;"></i>
-                        Legacy altyapıların modernize edilmesi ve bulut platformlarına taşınması
-                    </div>
-                    <div style="display:flex; gap:1rem; align-items:flex-start; font-size:.88rem; color:var(--ink-2);">
-                        <i class="fa-solid fa-chart-line" style="color:var(--gold); margin-top:.25rem; flex-shrink:0;"></i>
-                        Yüksek hacimli gerçek zamanlı veri işleme ve analitik pipeline'ları
-                    </div>
-                    <div style="display:flex; gap:1rem; align-items:flex-start; font-size:.88rem; color:var(--ink-2);">
-                        <i class="fa-solid fa-users-gear" style="color:var(--gold); margin-top:.25rem; flex-shrink:0;"></i>
-                        Kuruma özel iş akış otomasyonları, ERP/CRM entegrasyonları ve API hub'ları
-                    </div>
-                </div>
-            </div>
-
-            <div class="fade-up" style="border:1px solid var(--rule); background:var(--canvas); padding:2.5rem;">
-                <div class="label" style="margin-bottom:1.75rem;">Sıkça Sorulanlar</div>
-                <div style="display:flex; flex-direction:column; gap:1.5rem;">
-                    <div style="border-bottom:1px solid var(--rule); padding-bottom:1.5rem;">
-                        <div class="display" style="font-size:1rem; font-weight:600; color:var(--ink); margin-bottom:.75rem;">Teknik danışmanlık süreci nasıl ilerler?</div>
-                        <p style="font-size:.85rem; color:var(--ink-3); line-height:1.8;">Analiz, mimari tasarım, prototipleme ve geliştirme fazlarını şeffaf bir teknik roadmap ile yönetiyoruz.</p>
-                    </div>
-                    <div style="border-bottom:1px solid var(--rule); padding-bottom:1.5rem;">
-                        <div class="display" style="font-size:1rem; font-weight:600; color:var(--ink); margin-bottom:.75rem;">Kod mülkiyeti ve fikri haklar kime ait?</div>
-                        <p style="font-size:.85rem; color:var(--ink-3); line-height:1.8;">Geliştirilen tüm kaynak kodların, veritabanı şemalarının ve tasarımların mülkiyeti %100 size aittir.</p>
-                    </div>
-                    <div>
-                        <div class="display" style="font-size:1rem; font-weight:600; color:var(--ink); margin-bottom:.75rem;">Bakım ve SLA sürekliliği sağlıyor musunuz?</div>
-                        <p style="font-size:.85rem; color:var(--ink-3); line-height:1.8;">Kritik sistemlerin 7/24 ayakta kalması için SLA garantili bakım ve uptime monitoring sunuyoruz.</p>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    </div>
-    <style> @media(max-width:768px){ .faq-grid { grid-template-columns:1fr !important; gap:3rem !important; } } </style>
-</section>
-
 {% endblock %}

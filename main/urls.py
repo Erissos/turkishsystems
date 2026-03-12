@@ -1,9 +1,12 @@
 from django.urls import path
 
 from .views import (
+    account_auth_page,
     about_page,
     contact_page,
+    dashboard_page,
     home,
+    logout_view,
     product_detail,
     products_page,
     portfolio_detail,
@@ -21,4 +24,7 @@ urlpatterns = [
     path("portfolyo/<slug:slug>/", portfolio_detail, name="portfolio_detail"),
     path("portfolyo/id/<int:pk>/", portfolio_detail, name="portfolio_detail_id"),
     path("iletisim/", contact_page, name="contact"),
+    path("hesap/", dashboard_page, name="dashboard"),
+    path("giris/", account_auth_page, name="account_auth"),
+    path("cikis/", logout_view, name="logout"),
 ]

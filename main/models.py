@@ -86,6 +86,19 @@ class PortfolioItem(models.Model):
     slug = models.SlugField(max_length=200, unique=True, blank=True, null=True)
     description = models.TextField(blank=True)
     image = models.ImageField(upload_to="portfolio/", blank=True, null=True)
+    client_name = models.CharField(max_length=160, blank=True)
+    industry = models.CharField(max_length=120, blank=True)
+    location = models.CharField(max_length=120, blank=True)
+    delivery_year = models.CharField(max_length=20, blank=True)
+    scope_summary = models.CharField(max_length=220, blank=True)
+    highlight_metric = models.CharField(max_length=120, blank=True)
+    challenge = models.TextField(blank=True)
+    solution = models.TextField(blank=True)
+    results = models.TextField(blank=True)
+    technologies = models.TextField(blank=True, help_text="Her satıra bir teknoloji yazın")
+    project_url = models.URLField(blank=True)
+    is_featured = models.BooleanField(default=False)
+    is_live = models.BooleanField(default=True)
     order = models.PositiveIntegerField(default=0)
 
     class Meta:
@@ -107,10 +120,37 @@ class PortfolioItem(models.Model):
             return reverse("portfolio_detail", kwargs={"slug": self.slug})
         return reverse("portfolio_detail_id", kwargs={"pk": self.pk})
 
+    def get_technology_list(self) -> list[str]:
+        return [item.strip() for item in self.technologies.split("\n") if item.strip()]
+
     def save(self, *args, **kwargs) -> None:
         if not self.slug:
             self.slug = slugify(self.title)
         super().save(*args, **kwargs)
+
+
+class Reference(models.Model):
+    portfolio_item = models.ForeignKey(
+        PortfolioItem,
+        on_delete=models.SET_NULL,
+        related_name="references",
+        null=True,
+        blank=True,
+    )
+    company_name = models.CharField(max_length=160)
+    person_name = models.CharField(max_length=120)
+    role = models.CharField(max_length=160, blank=True)
+    quote = models.TextField()
+    outcome = models.CharField(max_length=200, blank=True)
+    sector = models.CharField(max_length=120, blank=True)
+    is_featured = models.BooleanField(default=True)
+    order = models.PositiveIntegerField(default=0)
+
+    class Meta:
+        ordering = ["order", "id"]
+
+    def __str__(self) -> str:
+        return f"{self.company_name} - {self.person_name}"
 
 
 class SocialLink(models.Model):
@@ -126,8 +166,8 @@ class SocialLink(models.Model):
 
 
 class PricingPackage(models.Model):
-    name = models.CharField(max_length=120)  # e.g. Start, Scale, Enterprise
-    price = models.CharField(max_length=80)  # e.g. ₺9.900/ay, Özel teklif
+    name = models.CharField(max_length=120)
+    price = models.CharField(max_length=80)
     description = models.TextField()
     features = models.TextField(help_text="Her satıra bir özellik yazın")
     is_highlighted = models.BooleanField(default=False)
@@ -140,7 +180,7 @@ class PricingPackage(models.Model):
         return self.name
 
     def get_features_list(self) -> list[str]:
-        return [f.strip() for f in self.features.split("\n") if f.strip()]
+        return [feature.strip() for feature in self.features.split("\n") if feature.strip()]
 
 
 class Product(models.Model):
@@ -161,6 +201,11 @@ class Product(models.Model):
         if not self.slug:
             self.slug = slugify(self.name)
         super().save(*args, **kwargs)
+
+    def get_absolute_url(self) -> str:
+        from django.urls import reverse
+
+        return reverse("product_detail", kwargs={"slug": self.slug})
 
     def get_detailed_features_list(self) -> list[str]:
         return [item.strip() for item in self.detailed_features.split("\n") if item.strip()]
@@ -238,3 +283,59 @@ class ProductOrder(models.Model):
 
     def __str__(self) -> str:
         return f"{self.product.name} sipariş - {self.full_name}"
+
+
+class ProjectRequest(models.Model):
+    REQUEST_TYPE_CHOICES = [
+        ("portal", "Müşteri portalı"),
+        ("web", "Kurumsal web platformu"),
+        ("automation", "Operasyon otomasyonu"),
+        ("integration", "Entegrasyon ve API"),
+        ("mobile", "Mobil ve saha uygulaması"),
+        ("consulting", "Danışmanlık ve analiz"),
+    ]
+    BUDGET_CHOICES = [
+        ("not_sure", "Henüz net değil"),
+        ("lt_50", "50.000 TL altı"),
+        ("50_150", "50.000 - 150.000 TL"),
+        ("150_500", "150.000 - 500.000 TL"),
+        ("500_plus", "500.000 TL+"),
+    ]
+    TIMELINE_CHOICES = [
+        ("urgent", "0-2 hafta"),
+        ("month", "2-4 hafta"),
+        ("quarter", "1-3 ay"),
+        ("long_term", "3 ay+"),
+    ]
+    STATUS_CHOICES = [
+        ("new", "Yeni"),
+        ("reviewing", "İnceleniyor"),
+        ("planned", "Planlandı"),
+        ("closed", "Kapatıldı"),
+    ]
+
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.SET_NULL,
+        related_name="project_requests",
+        null=True,
+        blank=True,
+    )
+    full_name = models.CharField(max_length=150)
+    email = models.EmailField()
+    company_name = models.CharField(max_length=160, blank=True)
+    phone = models.CharField(max_length=40, blank=True)
+    request_type = models.CharField(max_length=30, choices=REQUEST_TYPE_CHOICES)
+    budget_range = models.CharField(max_length=30, choices=BUDGET_CHOICES, blank=True)
+    timeline = models.CharField(max_length=30, choices=TIMELINE_CHOICES, blank=True)
+    project_scope = models.TextField()
+    systems_note = models.TextField(blank=True)
+    wants_portal_access = models.BooleanField(default=True)
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default="new")
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ["-created_at"]
+
+    def __str__(self) -> str:
+        return f"{self.full_name} - {self.get_request_type_display()}"

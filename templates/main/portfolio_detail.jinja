@@ -1,143 +1,109 @@
-{% extends "main/base.jinja" %}
+{% extends "base.jinja" %}
 
 {% block content %}
-
-<!-- BACK NAVIGATION -->
-<div style="padding-top:72px; background:var(--canvas-2); border-bottom:1px solid var(--rule);">
-    <div class="wrap" style="padding:1.5rem 2.5rem;">
-        <a href="/portfolyo/" style="display:inline-flex; align-items:center; gap:.6rem; font-family:'DM Mono','Space Mono',monospace; font-size:.75rem; letter-spacing:.15em; color:var(--ink-3); text-decoration:none; text-transform:uppercase; transition:color .2s;">
-            <i class="fa-solid fa-arrow-left" style="font-size:.65rem;"></i>
-            Portföy
-        </a>
-    </div>
-</div>
-
-
-<!-- HERO IMAGE -->
-<section style="background:var(--canvas-2); border-bottom:1px solid var(--rule); overflow:hidden;">
-    <div style="position:relative; height:clamp(280px,46vw,520px); overflow:hidden;">
-        <img src="{{ item.image_url }}" alt="{{ item.title }}"
-             class="img-zoom"
-             style="width:100%; height:100%; object-fit:cover; display:block;">
-        <div style="position:absolute; inset:0; background:linear-gradient(to top, rgba(13,11,9,.65) 0%, rgba(13,11,9,.1) 60%, transparent 100%);"></div>
-
-        <!-- Catalogue badge -->
-        <div style="position:absolute; bottom:2rem; left:2.5rem; font-family:'DM Mono','Space Mono',monospace; font-size:.65rem; letter-spacing:.22em; color:var(--gold); background:rgba(13,11,9,.8); padding:.4rem 1rem; backdrop-filter:blur(6px); border:1px solid var(--rule);">
-            REFERANS &mdash; {{ item.title|upper }}
+<section class="section section-top">
+    <div class="shell detail-layout">
+        <div>
+            <a href="{{ url('portfolio') }}" class="btn-link"><i class="fa-solid fa-arrow-left"></i> Portfolyoya dön</a>
+            <div class="eyebrow" style="margin-top:24px;">{{ item.industry or 'Kurumsal Proje' }}</div>
+            <h1 class="headline">{{ item.title }}</h1>
+            <p class="lead" style="margin-top:20px;">{{ item.description }}</p>
+            <div class="tag-list" style="margin-top:24px;">
+                {% if item.client_name %}<span class="tag">{{ item.client_name }}</span>{% endif %}
+                {% if item.location %}<span class="tag">{{ item.location }}</span>{% endif %}
+                {% if item.delivery_year %}<span class="tag">{{ item.delivery_year }}</span>{% endif %}
+                {% if item.highlight_metric %}<span class="tag">{{ item.highlight_metric }}</span>{% endif %}
+            </div>
         </div>
+
+        <aside class="card" style="position:sticky; top:110px;">
+            <div class="eyebrow">Proje Özeti</div>
+            <div style="display:grid; gap:14px; margin-top:18px;">
+                <div>
+                    <div class="kicker">Kapsam</div>
+                    <strong>{{ item.scope_summary or 'Özel yazılım geliştirme' }}</strong>
+                </div>
+                <div>
+                    <div class="kicker">Durum</div>
+                    <strong>{% if item.is_live %}Canlı{% else %}Teslim edildi{% endif %}</strong>
+                </div>
+                {% if item.project_url %}
+                <a href="{{ item.project_url }}" target="_blank" rel="noopener" class="btn-secondary">Projeyi Aç</a>
+                {% endif %}
+                <a href="{{ url('contact') }}" class="btn-primary">Benzer Çözüm İstiyorum</a>
+            </div>
+        </aside>
     </div>
 </section>
 
-
-<!-- PROJECT CONTENT -->
-<section class="section-pad">
-    <div class="wrap">
-        <div style="display:grid; grid-template-columns:1fr 380px; gap:5rem; align-items:start;" class="det-grid">
-
-            <!-- LEFT: Main content -->
-            <div>
-                <div class="label" style="margin-bottom:1.25rem;">Proje Detayı</div>
-                <h1 class="display" style="font-size:clamp(2rem,4vw,3.5rem); font-weight:900; line-height:1.08; margin-bottom:2rem;">
-                    {{ item.title }}
-                </h1>
-
-                <div class="h-rule" style="margin-bottom:2rem;"></div>
-
-                <div style="font-size:.97rem; color:var(--ink-2); line-height:1.95; white-space:pre-line;">{{ item.description }}</div>
-
-                <div style="margin-top:3rem; display:flex; gap:1rem; flex-wrap:wrap;">
-                    <button class="btn-gold" data-modal-open="contact-modal" style="cursor:pointer;">
-                        <i class="fa-solid fa-paper-plane" style="margin-right:.6rem;"></i>Benzer Proje İste
-                    </button>
-                    <a href="/portfolyo/" class="btn-ghost">
-                        <i class="fa-solid fa-grid-2" style="margin-right:.6rem;"></i>Tüm Referanslar
-                    </a>
-                </div>
-            </div>
-
-            <!-- RIGHT: Sidebar -->
-            <div style="position:sticky; top:96px;">
-
-                <div style="border:1px solid var(--rule); background:var(--canvas-2); overflow:hidden;">
-                    <div style="height:2px; background:linear-gradient(90deg, var(--gold), var(--gold-lt), var(--gold));"></div>
-                    <div style="padding:2rem 1.75rem;">
-                        <div class="label" style="margin-bottom:1.5rem; color:var(--gold-lt);">Proje Bilgileri</div>
-
-                        <div style="display:flex; flex-direction:column; gap:1.25rem;">
-                            <div style="display:flex; justify-content:space-between; align-items:flex-start; border-bottom:1px solid var(--rule); padding-bottom:1.25rem;">
-                                <span style="font-size:.78rem; color:var(--ink-3); font-family:'DM Mono',monospace; letter-spacing:.08em; text-transform:uppercase;">Kategori</span>
-                                <span style="font-size:.85rem; color:var(--ink); text-align:right; max-width:58%;">Yazılım Geliştirme</span>
-                            </div>
-                            <div style="display:flex; justify-content:space-between; align-items:flex-start; border-bottom:1px solid var(--rule); padding-bottom:1.25rem;">
-                                <span style="font-size:.78rem; color:var(--ink-3); font-family:'DM Mono',monospace; letter-spacing:.08em; text-transform:uppercase;">Konum</span>
-                                <span style="font-size:.85rem; color:var(--ink); text-align:right; max-width:58%;">Türkiye &amp; Uzaktan</span>
-                            </div>
-                            <div style="display:flex; justify-content:space-between; align-items:flex-start;">
-                                <span style="font-size:.78rem; color:var(--ink-3); font-family:'DM Mono',monospace; letter-spacing:.08em; text-transform:uppercase;">Durum</span>
-                                <span style="font-size:.85rem; color:var(--gold);">&#9679; Canlı</span>
-                            </div>
-                        </div>
-
-                        <div class="h-rule" style="margin:1.5rem 0;"></div>
-
-                        <p style="font-size:.82rem; color:var(--ink-3); line-height:1.75; margin-bottom:1.5rem;">
-                            Bu projeye benzer bir çözümü siz de almak ister misiniz? Ücretsiz teknik konsültasyon için bize ulaşın.
-                        </p>
-
-                        <button class="btn-gold" data-modal-open="contact-modal" style="width:100%; cursor:pointer; justify-content:center;">
-                            <i class="fa-solid fa-paper-plane" style="margin-right:.6rem;"></i>Teklif Al
-                        </button>
-                    </div>
-                </div>
-
-            </div>
-
-        </div>
+<section class="section-tight">
+    <div class="shell grid-3">
+        <article class="card">
+            <div class="eyebrow">Zorluk</div>
+            <p class="lead" style="margin-top:16px;">{{ item.challenge or item.description }}</p>
+        </article>
+        <article class="card">
+            <div class="eyebrow">Çözüm</div>
+            <p class="lead" style="margin-top:16px;">{{ item.solution or item.description }}</p>
+        </article>
+        <article class="card">
+            <div class="eyebrow">Sonuç</div>
+            <p class="lead" style="margin-top:16px;">{{ item.results or item.highlight_metric or 'Süreç görünürlüğü ve daha hızlı operasyon akışı sağlandı.' }}</p>
+        </article>
     </div>
-    <style>
-        @media(max-width:900px){
-            .det-grid { grid-template-columns:1fr !important; gap:3rem !important; }
-            .det-grid > div:last-child { position:static !important; }
-        }
-    </style>
 </section>
 
+{% if item.get_technology_list() %}
+<section class="section-tight">
+    <div class="shell">
+        <div class="eyebrow">Teknoloji Seti</div>
+        <ul class="stack-list" style="margin-top:18px;">
+            {% for technology in item.get_technology_list() %}
+            <li class="stack-item">{{ technology }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+</section>
+{% endif %}
 
-<!-- RELATED STRIP -->
-<section class="section-pad-sm bg-alt">
-    <div class="wrap">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:2.5rem; flex-wrap:wrap; gap:1rem;">
-            <div>
-                <div class="label" style="margin-bottom:.5rem;">Keşfet</div>
-                <h2 class="display" style="font-size:1.5rem; font-weight:700;">Diğer Referanslar</h2>
-            </div>
-            <a href="/portfolyo/" class="btn-ghost" style="font-size:.8rem;">
-                Tümünü Gör <i class="fa-solid fa-arrow-right" style="margin-left:.5rem;"></i>
-            </a>
-        </div>
-
-        <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--rule);" class="rel-grid">
-            {% for rel in related_items %}
-            <a href="{{ rel.get_absolute_url() }}" style="display:block; text-decoration:none; background:var(--canvas-2); overflow:hidden;">
-                <div style="aspect-ratio:16/9; overflow:hidden;">
-                    <img src="{{ rel.image_url }}" alt="{{ rel.title }}" loading="lazy"
-                         style="width:100%; height:100%; object-fit:cover; display:block; transition:transform .55s cubic-bezier(.25,.46,.45,.94);">
+{% if project_references %}
+<section class="section-tight">
+    <div class="shell">
+        <div class="eyebrow">Müşteri Yorumu</div>
+        <div class="grid-2" style="margin-top:20px;">
+            {% for reference in project_references %}
+            <article class="card">
+                <p class="lead" style="font-size:1rem; margin:0;">“{{ reference.quote }}”</p>
+                <div style="margin-top:18px;">
+                    <strong>{{ reference.person_name }}</strong>
+                    <div class="kicker">{{ reference.role }} · {{ reference.company_name }}</div>
                 </div>
-                <div style="padding:1.25rem 1.25rem 1.5rem;">
-                    <div class="display" style="font-size:.95rem; font-weight:700; color:var(--ink); line-height:1.35;">{{ rel.title }}</div>
-                </div>
-            </a>
-            {% else %}
-            <!-- fallback if no related_items provided -->
-            <div style="background:var(--canvas-2); padding:2.5rem; grid-column:1/-1; text-align:center;">
-                <a href="/portfolyo/" class="btn-ghost" style="font-size:.8rem;">
-                    Tüm Referansları İncele <i class="fa-solid fa-arrow-right" style="margin-left:.5rem;"></i>
-                </a>
-            </div>
+            </article>
             {% endfor %}
         </div>
-        <style> @media(max-width:768px){ .rel-grid { grid-template-columns:1fr !important; } } </style>
     </div>
 </section>
+{% endif %}
 
+<section class="section">
+    <div class="shell">
+        <div class="two-col" style="align-items:end; margin-bottom:28px;">
+            <div>
+                <div class="eyebrow">Diğer Projeler</div>
+                <h2 class="section-title">Benzer kurumsal ihtiyaçlara verdiğimiz diğer teknik yanıtlar.</h2>
+            </div>
+            <a href="{{ url('portfolio') }}" class="btn-link">Tümünü gör <i class="fa-solid fa-arrow-right"></i></a>
+        </div>
+        <div class="grid-3">
+            {% for related in related_items %}
+            <article class="card">
+                <div class="eyebrow">{{ related.industry or 'Kurumsal Proje' }}</div>
+                <h3 class="subheadline" style="font-size:1.35rem; margin-top:16px;">{{ related.title }}</h3>
+                <p class="lead" style="font-size:.95rem; margin-top:14px;">{{ related.description }}</p>
+                <a href="{{ related.get_absolute_url() }}" class="btn-link" style="margin-top:18px;">İncele <i class="fa-solid fa-arrow-right"></i></a>
+            </article>
+            {% endfor %}
+        </div>
+    </div>
+</section>
 {% endblock %}
